@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Gig Map</title>
+	<meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Cantarell|Fjalla+One" rel="stylesheet">
+	<link href="https://cdn.rawgit.com/noelboss/featherlight/1.7.12/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="./lib/css/featherlight.css">
+	<link rel="stylesheet" href="grid.css">
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<main>
+	<h1>Search for Flights</h1>
+	<form action="#" id="searchFlights">
+		<label for="departure_date">Departure Date</label>
+		<input type="date" id="departure_date">
+		<label for="origin">From:</label>
+		<input type="text" id="origin">
+		<label for="destination">To:</label>
+		<input type="text" id="destination">
+		<br><br>
+		<label for="return_date">Return Date</label>
+		<input type="date" id="return_date">
+		<button type="submit">Search</button>
+	</form>
+
+	<div class="rawResults">
+		<div class="flight-result">
+			<h3 class="price">$56.30</h3>
+			<div class="leg">
+				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
+			</div>
+			<div class="leg">
+				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
+				<p class="otherinfo">connects in DFW | travel time 3:23</p>
+			</div>
+		</div>
+	</div>
+
+
+</main>
+
+
+
+
+
+
+
+
+
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="./lib/js/moment.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk"  ></script>
+    <!-- <script src="./js/gmaps.min.js"></script> -->
+    <script src="https://cdn.rawgit.com/noelboss/featherlight/1.7.12/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="./lib/js/featherlight.js"></script>
+	<script src='flightresults.js'></script>
+	<script src="app.js"></script>
+	<script>
+		
+	</script>
+</body>
+</html>
