@@ -14,17 +14,25 @@
 
 <main>
 	<h1>Search for Flights</h1>
+
+
 	<form action="#" id="searchFlights">
-		<label for="departure_date">Departure Date</label>
-		<input type="date" id="departure_date">
-		<label for="origin">From:</label>
-		<input type="text" id="origin">
-		<label for="destination">To:</label>
-		<input type="text" id="destination">
-		<br><br>
-		<label for="return_date">Return Date</label>
-		<input type="date" id="return_date">
-		<button type="submit">Search</button>
+			
+		<fieldset>
+			<legend>Search For Flights</legend>
+
+
+
+			<label for="departure_date" >Departure Date</label>
+			<input type="date" id="departure_date"><br><br>
+			<label for="origin" class="control-label">From:</label>
+			<input type="text" id="origin"><br><br>
+			<label for="destination" class="control-label">To:</label>
+			<input type="text" id="destination" id="autocomplete"><br><br>
+			<label for="return_date">Return Date</label>
+			<input type="date" id="return_date">
+			<button type="submit">Search</button>
+		</fieldset>
 	</form>
 
 	<div class="rawResults">
@@ -42,7 +50,6 @@
 
 
 </main>
-
 
 
 

@@ -1,5 +1,9 @@
 const apikey = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
 
+document.getElementById('departure_date').valueAsDate =  moment().add(2,'days').toDate();
+document.getElementById('return_date').valueAsDate =  moment().add(5,'days').toDate();
+
+
 
 $('#searchFlights').on('submit', function(event){
 	event.preventDefault();
@@ -25,47 +29,47 @@ function handleFlightSearch(obj){
 		number_of_results: 15, 
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 	}, function(json, textStatus) {
-			console.log(json);
+			// console.log(json);
 			const result = new FlightResultGroup(json);
-			resultsArray.push(result);
-			// displayResults(json);
-	});
+			result.displayAllItineraries();
+			// resultsArray.push(result);
+	}).fail(err=> console.log(`there was an error: ${err}`));
 }
 
-function displayResults(json){
-	let arr = json.results.map(r => renderResult(r))
-	$('.rawResults').html(arr);
-}
+// function displayResults(json){
+// 	let arr = json.results.map(r => renderResult(r))
+// 	$('.rawResults').html(arr);
+// }
 
-let flightResult;
-function renderResult(r){
-	flightResult = r;
-	return `
-		<div class="flight-result">
-			<h3 class="price">${r.fare.total_price}</h3>
-			${r.itineraries[0].outbound.flights.forEach(flight=> renderLeg(flight))}
-			<div class="leg">
-				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
-			</div>
-			<div class="leg">
-				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
-				<p class="otherinfo">connects in DFW | travel time 3:23</p>
-			</div>
-		</div>
-	`
-	function renderLeg(flight){
-		let {
-			operating_airline,
-			flight_number,
-			origin,
-			destination, 
-			arrives_at,
-			departs_at,
-			} = flight;
-		return `
-			<div class="leg">
-				<p class="maininfo">${operating_airline} #${flight_number} Departs ${origin.airport} at XX:XXam | Arrives ${destination.airport} at XX:XXpm</p>
-			</div>
-		`
-	}
-}
+// let flightResult;
+// function renderResult(r){
+// 	flightResult = r;
+// 	return `
+// 		<div class="flight-result">
+// 			<h3 class="price">${r.fare.total_price}</h3>
+// 			${r.itineraries[0].outbound.flights.forEach(flight=> renderLeg(flight))}
+// 			<div class="leg">
+// 				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
+// 			</div>
+// 			<div class="leg">
+// 				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
+// 				<p class="otherinfo">connects in DFW | travel time 3:23</p>
+// 			</div>
+// 		</div>
+// 	`
+// 	function renderLeg(flight){
+// 		let {
+// 			operating_airline,
+// 			flight_number,
+// 			origin,
+// 			destination, 
+// 			arrives_at,
+// 			departs_at,
+// 			} = flight;
+// 		return `
+// 			<div class="leg">
+// 				<p class="maininfo">${operating_airline} #${flight_number} Departs ${origin.airport} at XX:XXam | Arrives ${destination.airport} at XX:XXpm</p>
+// 			</div>
+// 		`
+// 	}
+// }
