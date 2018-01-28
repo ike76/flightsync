@@ -85,6 +85,8 @@ function getTimeZoneNames(orig, dest){
 // 	return zones;
 // }
 
+let result;  // global FlightResultGroup
+
 function handleFlightSearch(obj){
 	let endpoint = `https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search`;
 	// let number_of_results = 15;
@@ -96,7 +98,7 @@ function handleFlightSearch(obj){
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 	}, function(json, textStatus) {
 			// console.log(json);
-			const result = new FlightResultGroup(json, obj.zones);
+			result = new FlightResultGroup(json, obj.zones);
 			result.displayAllItineraries();
 			// resultsArray.push(result);
 	}).fail(err=> console.log(`there was an error: ${err}`));

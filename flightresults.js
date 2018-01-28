@@ -18,9 +18,12 @@ class FlightResultGroup { // several flight options
 				itinerary.destZone = this.zones.dest;
 				itinerary.fare = fare;
 				itinerary.duration = this.getTravelTime(itinerary);
+				itinerary.depTimeLocal = moment(itinerary.outbound.flights[0].departs_at)
+				itinerary.arrTimeLocal = moment(itinerary.outbound.flights[itinerary.outbound.flights.length -1].arrives_at)
 				itineraryArray.push(itinerary);
 			})
 		})
+		console.log(itineraryArray);
 		return itineraryArray;
 	};
 	getTravelTime(itin){ 
@@ -28,7 +31,7 @@ class FlightResultGroup { // several flight options
 		let endTime = moment.tz(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at, this.zones.dest);
 		let travelTime = endTime.diff(startTime, 'minutes', true); // total time in minutes.
 		return moment.duration(travelTime, 'minutes'); // a moment.duration() object
-	}
+	};
 
 	formatItineraryHTML(itin){
 		let html = `
@@ -44,6 +47,10 @@ class FlightResultGroup { // several flight options
 		html += '</div>';
 		return html;
 	};
+	sortItineraries(arrayOfItins, sortBy){
+
+
+	}
 	displayAllItineraries(itineraryArray = this.itineraries, selector = '.rawResults'){
 		let itinHTML = itineraryArray.map(itin => this.formatItineraryHTML(itin));
 		$(selector).html(itinHTML);
