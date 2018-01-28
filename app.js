@@ -1,4 +1,6 @@
 const apikey = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
+const googApiKey = 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk';
+const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
 
 document.getElementById('departure_date').valueAsDate =  moment().add(2,'days').toDate();
 document.getElementById('return_date').valueAsDate =  moment().add(5,'days').toDate();
@@ -11,13 +13,54 @@ $('#searchFlights').on('submit', function(event){
 	let return_date = $(this).find('#return_date').val();
 	let origin = $(this).find('#origin').val();
 	let destination = $(this).find('#destination').val();
+	let zones = getTimeZones(origin, destination, departure_date );
 	handleFlightSearch({
 		departure_date,
 		return_date,
 		origin,
 		destination,
+		zones,
 	})
+	
 })
+
+function getTimeZones(orig, dest, date){
+	let zones = {}
+	let timeStamp = moment(date).unix();
+	console.log(`timestamp is ${timeStamp}`)
+	// call api
+	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${orig}/`, {apikey: apikey}, function(json){
+		console.log('about to spit out some loc data')
+		console.log(json)
+	}).done(data => {
+		let {latitude, longitude} = data.airports[0].location;
+		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
+		$.getJSON('https://maps.googleapis.com/maps/api/timezone/json', {
+			location: `${latitude}, ${longitude}`,
+			timestamp: timeStamp,
+			key: timeZoneKey,
+		}, function(json, textStatus) {
+				zones.orig = json;
+		});
+	});
+
+	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${dest}/`, {apikey: apikey}, function(json){
+		console.log('about to spit out some loc data')
+		console.log(json)
+	}).done(data => {
+		let {latitude, longitude} = data.airports[0].location;
+		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
+		$.getJSON('https://maps.googleapis.com/maps/api/timezone/json', {
+			location: `${latitude}, ${longitude}`,
+			timestamp: timeStamp,
+			key: timeZoneKey,
+		}, function(json, textStatus) {
+				zones.dest = json
+		});
+	});
+
+	return zones;
+}
 
 function handleFlightSearch(obj){
 	let endpoint = `https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search`;
@@ -26,11 +69,11 @@ function handleFlightSearch(obj){
 		departure_date: obj.departure_date,
 		origin: obj.origin,
 		destination: obj.destination, 
-		number_of_results: 15, 
+		number_of_results: 25, 
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 	}, function(json, textStatus) {
 			// console.log(json);
-			const result = new FlightResultGroup(json);
+			const result = new FlightResultGroup(json, obj.zones);
 			result.displayAllItineraries();
 			// resultsArray.push(result);
 	}).fail(err=> console.log(`there was an error: ${err}`));

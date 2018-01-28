@@ -1,8 +1,12 @@
 class FlightResultGroup { // several flight options
-	constructor(data){
+	constructor(data, zones){
 		console.log(data)
 		this.rawData = data;
 		this.itineraries = this.parseItineraries(data);
+		this.zones = zones;
+		this.origOffset = this.zones.orig.dstOffset + this.zones.orig.rawOffset;
+		this.destOffset = this.zones.dest.dstOffset + this.zones.dest.rawOffset;
+		console.log(this.origOffset, this.destOffset);
 	};
 	formatHTML(){
 
