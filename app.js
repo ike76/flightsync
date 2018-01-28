@@ -43,47 +43,47 @@ function getTimeZoneNames(orig, dest){
 	return zones;
 }
 
-function getTimeZones(orig, dest, date){ // replace me
-	let zones = {}
-	let timeStamp = moment(date).unix();
-	console.log(`timestamp is ${timeStamp}`)
-	// call api
-	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${orig}/`, {apikey: apikey}, function(json){
-		console.log('about to spit out timezone stuff')
-		let tzTime = moment(date).tz(json.airports[0].timezone).format('ha z')
+// function getTimeZones(orig, dest, date){ // replace me
+// 	let zones = {}
+// 	let timeStamp = moment(date).unix();
+// 	console.log(`timestamp is ${timeStamp}`)
+// 	// call api
+// 	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${orig}/`, {apikey: apikey}, function(json){
+// 		console.log('about to spit out timezone stuff')
+// 		let tzTime = moment(date).tz(json.airports[0].timezone).format('ha z')
 
-		console.log(tzTime)
-	}).done(data => {
-		let {latitude, longitude} = data.airports[0].location;
-		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
-		$.getJSON('https://maps.googleapis.com/maps/api/timezone/json', {
-			location: `${latitude}, ${longitude}`,
-			timestamp: timeStamp,
-			key: timeZoneKey,
-		}, function(json, textStatus) {
-				zones.orig = json;
-		});
-	});
+// 		console.log(tzTime)
+// 	}).done(data => {
+// 		let {latitude, longitude} = data.airports[0].location;
+// 		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
+// 		$.getJSON('https://maps.googleapis.com/maps/api/timezone/json', {
+// 			location: `${latitude}, ${longitude}`,
+// 			timestamp: timeStamp,
+// 			key: timeZoneKey,
+// 		}, function(json, textStatus) {
+// 				zones.orig = json;
+// 		});
+// 	});
 
-	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${dest}/`, {apikey: apikey}, function(json){
-		console.log('about to spit out timezone stuff')
-		let tzTime = moment(date).tz(json.airports[0].timezone).format('ha z')
+// 	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${dest}/`, {apikey: apikey}, function(json){
+// 		console.log('about to spit out timezone stuff')
+// 		let tzTime = moment(date).tz(json.airports[0].timezone).format('ha z')
 
-		console.log(tzTime)
-	}).done(data => {
-		let {latitude, longitude} = data.airports[0].location;
-		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
-		$.getJSON('https://maps.googleapis.com/maps/api/timezone/json', {
-			location: `${latitude}, ${longitude}`,
-			timestamp: timeStamp,
-			key: timeZoneKey,
-		}, function(json, textStatus) {
-				zones.dest = json
-		});
-	});
+// 		console.log(tzTime)
+// 	}).done(data => {
+// 		let {latitude, longitude} = data.airports[0].location;
+// 		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
+// 		$.getJSON('https://maps.googleapis.com/maps/api/timezone/json', {
+// 			location: `${latitude}, ${longitude}`,
+// 			timestamp: timeStamp,
+// 			key: timeZoneKey,
+// 		}, function(json, textStatus) {
+// 				zones.dest = json
+// 		});
+// 	});
 
-	return zones;
-}
+// 	return zones;
+// }
 
 function handleFlightSearch(obj){
 	let endpoint = `https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search`;

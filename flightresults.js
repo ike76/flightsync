@@ -17,7 +17,7 @@ class FlightResultGroup { // several flight options
 				itinerary.origZone = this.zones.orig;
 				itinerary.destZone = this.zones.dest;
 				itinerary.fare = fare;
-				itinerary.travelTime = this.getTravelTime(itinerary);
+				itinerary.duration = this.getTravelTime(itinerary);
 				itineraryArray.push(itinerary);
 			})
 		})
@@ -26,10 +26,10 @@ class FlightResultGroup { // several flight options
 	getTravelTime(itin){ 
 		let startTime = moment.tz(itin.outbound.flights[0].departs_at, this.zones.orig);
 		let endTime = moment.tz(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at, this.zones.dest);
-		let travelTime = endTime.diff(startTime, 'minutes', true);
-		return travelTime;
+		let travelTime = endTime.diff(startTime, 'minutes', true); // total time in minutes.
+		return moment.duration(travelTime, 'minutes'); // a moment.duration() object
 	}
-	
+
 	formatItineraryHTML(itin){
 		let html = `
 			<div class="flight-result">
@@ -40,6 +40,7 @@ class FlightResultGroup { // several flight options
 						<p class="maininfo">${leg.marketing_airline} #${leg.flight_number} Departs ${leg.origin.airport} ${moment(leg.departs_at).format("ddd MMM D @ h:mma")} | Arrives ${leg.destination.airport} at ${moment(leg.arrives_at).format("h:mma")}</p>
 					</div>`
 				})
+		html += `<div class='travel-time'>total travel time = ${itin.duration.hours()} hr ${itin.duration.minutes()} min</div>`
 		html += '</div>';
 		return html;
 	};

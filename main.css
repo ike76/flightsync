@@ -34,3 +34,11 @@
 	position: relative;
 	left: 70px;
 }
+.travel-time{
+    font-family: 'Cantarell';
+    font-size: 12px;
+    text-align: right;
+    position: relative;
+    margin-right: -70px;
+    color: lightslategrey;
+}
