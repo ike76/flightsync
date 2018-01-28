@@ -4,11 +4,8 @@ class FlightResultGroup { // several flight options
 		this.rawData = data;
 		this.zones = zones;
 		this.itineraries = this.parseItineraries(data);
-		
 	};
-	formatHTML(){
 
-	};
 	parseItineraries(data){
 		let itineraryArray = []
 		data.results.forEach(pricePoint => {
@@ -18,6 +15,7 @@ class FlightResultGroup { // several flight options
 				itinerary.destZone = this.zones.dest;
 				itinerary.fare = fare;
 				itinerary.duration = this.getTravelTime(itinerary);
+				itinerary.minutes = this.getTravelTime(itinerary).asMinutes();;
 				itinerary.depTimeLocal = moment(itinerary.outbound.flights[0].departs_at)
 				itinerary.arrTimeLocal = moment(itinerary.outbound.flights[itinerary.outbound.flights.length -1].arrives_at)
 				itineraryArray.push(itinerary);
@@ -43,13 +41,29 @@ class FlightResultGroup { // several flight options
 						<p class="maininfo">${leg.marketing_airline} #${leg.flight_number} Departs ${leg.origin.airport} ${moment(leg.departs_at).format("ddd MMM D @ h:mma")} | Arrives ${leg.destination.airport} at ${moment(leg.arrives_at).format("h:mma")}</p>
 					</div>`
 				})
-		html += `<div class='travel-time'>total travel time = ${itin.duration.hours()} hr ${itin.duration.minutes()} min</div>`
+		html += `<div class='travel-time'>total travel time = ${itin.duration.days()} days ${itin.duration.hours()} hr ${itin.duration.minutes()} min</div>`
 		html += '</div>';
 		return html;
 	};
-	sortItineraries(arrayOfItins, sortBy){
-
-
+	sortByDuration(arr = this.itineraries){
+		return arr.sort((each, others)=>{return each.minutes - others.minutes;});
+	}
+	sortByPrice(arr = this.itineraries){
+		return arr.sort((each, others)=>{return each.fare - others.fare})
+	}
+	sortByArrivalTimeDelta(targetTime = moment('2018-02-03T13:50'), arr = this.itineraries){
+		return arr.sort((each, others)=>{
+			let eachDelta = each.arrTimeLocal.diff(targetTime, 'minutes');
+			let otherDelta = others.arrTimeLocal.diff(targetTime, 'minutes');
+			return Math.abs(eachDelta) - Math.abs(otherDelta);
+		});
+	}
+	sortItineraries(arrayOfItins = this.itineraries, sortFunction = this.sortByDuration){
+		console.log('before the sort');
+		console.log(arrayOfItins);
+		arrayOfItins.sort(sortFunction);
+		console.log('after the sort');
+		console.log(arrayOfItins);
 	}
 	displayAllItineraries(itineraryArray = this.itineraries, selector = '.rawResults'){
 		let itinHTML = itineraryArray.map(itin => this.formatItineraryHTML(itin));

@@ -3,10 +3,10 @@ const googApiKey = 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk';
 const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
 
 // prefill search boxes with default values
-document.getElementById('departure_date').valueAsDate =  moment().add(2,'days').toDate();
-document.getElementById('return_date').valueAsDate =  moment().add(5,'days').toDate();
+document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
+document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
 $('#origin').val('MSP');
-$('#destination').val('LAX');
+$('#destination').val('CDG');
 
 
 
@@ -27,9 +27,6 @@ $('#searchFlights').on('submit', function(event){
 	
 })
 
-function insertTimeZones(orig, dest){
-
-}
 function getTimeZoneNames(orig, dest){
 	let zones = {};
 	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${orig}/`, {apikey: apikey}, function(json){
@@ -94,7 +91,7 @@ function handleFlightSearch(obj){
 		departure_date: obj.departure_date,
 		origin: obj.origin,
 		destination: obj.destination, 
-		number_of_results: 25, 
+		number_of_results: 15, 
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 	}, function(json, textStatus) {
 			// console.log(json);
