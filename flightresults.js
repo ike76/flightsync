@@ -17,11 +17,17 @@ class FlightResultGroup { // several flight options
 			let fare = pricePoint.fare.total_price;
 			pricePoint.itineraries.forEach(itinerary=>{
 				itinerary.fare = fare;
+				itinerary.travelTime = this.getTravelTime(itinerary);
 				itineraryArray.push(itinerary);
 			})
 		})
 		return itineraryArray;
 	};
+	getTravelTime(itin){
+		let startTime = moment(itin.outbound.flights[0].departs_at)
+		let endTime = moment(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at)
+		console.log(`startTime: ${startTime} endTime: ${endTime}`)
+	}
 	formatItineraryHTML(itin){
 		let html = `
 			<div class="flight-result">
