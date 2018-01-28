@@ -2,8 +2,11 @@ const apikey = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
 const googApiKey = 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk';
 const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
 
+// prefill search boxes with default values
 document.getElementById('departure_date').valueAsDate =  moment().add(2,'days').toDate();
 document.getElementById('return_date').valueAsDate =  moment().add(5,'days').toDate();
+$('#origin').val('MSP');
+$('#destination').val('LAX');
 
 
 
@@ -13,7 +16,7 @@ $('#searchFlights').on('submit', function(event){
 	let return_date = $(this).find('#return_date').val();
 	let origin = $(this).find('#origin').val();
 	let destination = $(this).find('#destination').val();
-	let zones = getTimeZones(origin, destination, departure_date );
+	let zones = getTimeZoneNames(origin, destination)
 	handleFlightSearch({
 		departure_date,
 		return_date,
@@ -24,14 +27,32 @@ $('#searchFlights').on('submit', function(event){
 	
 })
 
-function getTimeZones(orig, dest, date){
+function insertTimeZones(orig, dest){
+
+}
+function getTimeZoneNames(orig, dest){
+	let zones = {};
+	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${orig}/`, {apikey: apikey}, function(json){
+		console.log('about to spit out timezone stuff')
+		zones.orig = json.airports[0].timezone
+	})
+	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${dest}/`, {apikey: apikey}, function(json){
+		zones.dest = json.airports[0].timezone
+	})
+	console.log(zones)
+	return zones;
+}
+
+function getTimeZones(orig, dest, date){ // replace me
 	let zones = {}
 	let timeStamp = moment(date).unix();
 	console.log(`timestamp is ${timeStamp}`)
 	// call api
 	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${orig}/`, {apikey: apikey}, function(json){
-		console.log('about to spit out some loc data')
-		console.log(json)
+		console.log('about to spit out timezone stuff')
+		let tzTime = moment(date).tz(json.airports[0].timezone).format('ha z')
+
+		console.log(tzTime)
 	}).done(data => {
 		let {latitude, longitude} = data.airports[0].location;
 		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)
@@ -45,8 +66,10 @@ function getTimeZones(orig, dest, date){
 	});
 
 	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${dest}/`, {apikey: apikey}, function(json){
-		console.log('about to spit out some loc data')
-		console.log(json)
+		console.log('about to spit out timezone stuff')
+		let tzTime = moment(date).tz(json.airports[0].timezone).format('ha z')
+
+		console.log(tzTime)
 	}).done(data => {
 		let {latitude, longitude} = data.airports[0].location;
 		console.log(`looking up lat: ${latitude}, lng: ${longitude}`)

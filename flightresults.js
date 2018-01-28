@@ -2,11 +2,9 @@ class FlightResultGroup { // several flight options
 	constructor(data, zones){
 		console.log(data)
 		this.rawData = data;
-		this.itineraries = this.parseItineraries(data);
 		this.zones = zones;
-		this.origOffset = this.zones.orig.dstOffset + this.zones.orig.rawOffset;
-		this.destOffset = this.zones.dest.dstOffset + this.zones.dest.rawOffset;
-		console.log(this.origOffset, this.destOffset);
+		this.itineraries = this.parseItineraries(data);
+		
 	};
 	formatHTML(){
 
@@ -16,6 +14,8 @@ class FlightResultGroup { // several flight options
 		data.results.forEach(pricePoint => {
 			let fare = pricePoint.fare.total_price;
 			pricePoint.itineraries.forEach(itinerary=>{
+				itinerary.origZone = this.zones.orig;
+				itinerary.destZone = this.zones.dest;
 				itinerary.fare = fare;
 				itinerary.travelTime = this.getTravelTime(itinerary);
 				itineraryArray.push(itinerary);
@@ -23,11 +23,13 @@ class FlightResultGroup { // several flight options
 		})
 		return itineraryArray;
 	};
-	getTravelTime(itin){
-		let startTime = moment(itin.outbound.flights[0].departs_at)
-		let endTime = moment(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at)
-		console.log(`startTime: ${startTime} endTime: ${endTime}`)
+	getTravelTime(itin){ 
+		let startTime = moment.tz(itin.outbound.flights[0].departs_at, this.zones.orig);
+		let endTime = moment.tz(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at, this.zones.dest);
+		let travelTime = endTime.diff(startTime, 'minutes', true);
+		return travelTime;
 	}
+	
 	formatItineraryHTML(itin){
 		let html = `
 			<div class="flight-result">
