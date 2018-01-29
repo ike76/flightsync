@@ -1,18 +1,22 @@
 class FlightResultGroup { // several flight options
-	constructor(data, zones){
-		console.log(data)
+	constructor(data, origZone, destZone, origin, destination, color){
+		console.log('creating a flightresultgroup with:', data)
 		this.rawData = data;
-		this.zones = zones;
 		this.itineraries = this.parseItineraries(data);
+		this.orig = origin;
+		this.dest = destination;
+		this.origZone = origZone;
+		this.destZone = destZone;
+		this.color = color;
 	};
-
+	
 	parseItineraries(data){
 		let itineraryArray = []
 		data.results.forEach(pricePoint => {
 			let fare = pricePoint.fare.total_price;
 			pricePoint.itineraries.forEach(itinerary=>{
-				itinerary.origZone = this.zones.orig;
-				itinerary.destZone = this.zones.dest;
+				itinerary.origZone = this.origZone;
+				itinerary.destZone = this.destZone;
 				itinerary.fare = fare;
 				itinerary.duration = this.getTravelTime(itinerary);
 				itinerary.minutes = this.getTravelTime(itinerary).asMinutes();;
@@ -25,8 +29,8 @@ class FlightResultGroup { // several flight options
 		return itineraryArray;
 	};
 	getTravelTime(itin){ 
-		let startTime = moment.tz(itin.outbound.flights[0].departs_at, this.zones.orig);
-		let endTime = moment.tz(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at, this.zones.dest);
+		let startTime = moment.tz(itin.outbound.flights[0].departs_at, this.origZone);
+		let endTime = moment.tz(itin.outbound.flights[itin.outbound.flights.length -1].arrives_at, this.destZone);
 		let travelTime = endTime.diff(startTime, 'minutes', true); // total time in minutes.
 		return moment.duration(travelTime, 'minutes'); // a moment.duration() object
 	};
@@ -63,16 +67,28 @@ class FlightResultGroup { // several flight options
 		let itinHTML = itineraryArray.map(itin => this.formatItineraryHTML(itin));
 		$(selector).html(itinHTML);
 	};
-	chartAllItineraries(itins = this.itineraries, by = 'landing'){
-		let dataArray = [];
-		if (by === 'landing') {
-			itins.forEach(each=>{
-				dataArray.push({x: each.arrTimeLocal  , y: each.fare  })
-			})
-		console.log(dataArray)
-		createChart(dataArray)
-		}
-	}
+	createDataSet(){
+		let dataArray = this.itineraries.map(itin=>{
+			return {x: itin.arrTimeLocal, y: itin.fare}
+		});
+		let dataset = {
+			label: this.orig,
+			backgroundColor: this.color,
+			radius: 5, 
+			data: dataArray,
+		};
+		store.chartDatasets.push(dataset);
+	};
+	// chartAllItineraries(itins = this.itineraries, by = 'landing'){
+	// 	let dataArray = [];
+	// 	if (by === 'landing') {
+	// 		itins.forEach(each=>{
+	// 			dataArray.push({x: each.arrTimeLocal  , y: each.fare  })
+	// 		})
+	// 	console.log(dataArray)
+	// 	createChart(dataArray)
+	// 	}
+	// }
 }
 
 const resultsArray = []; // several groups of flight options
