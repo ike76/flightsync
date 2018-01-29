@@ -69,6 +69,16 @@ class FlightResultGroup { // several flight options
 		let itinHTML = itineraryArray.map(itin => this.formatItineraryHTML(itin));
 		$(selector).html(itinHTML);
 	};
+	chartAllItineraries(itins = this.itineraries, by = 'landing'){
+		let dataArray = [];
+		if (by === 'landing') {
+			itins.forEach(each=>{
+				dataArray.push({x: each.arrTimeLocal  , y: each.fare  })
+			})
+		console.log(dataArray)
+		createChart(dataArray)
+		}
+	}
 }
 
 const resultsArray = []; // several groups of flight options

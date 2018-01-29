@@ -1,15 +1,14 @@
 .flight-result{
 	border: 1px lightgrey solid;
-	border-radius: 2px;
+	border-radius: 10px;
 	padding: 5px 10px;
-	
-}
-.flight-result {
 	position: relative;
 	display: inline-block;
 	margin-top: 15px;
-	padding-right: 85px; /*because .leg has 70px left position*/
+	padding-right: 90px; /*because .leg has 80px left position*/
+	
 }
+
 .flight-result .price{
 	font-family: 'Fjalla One', sans-serif;
 	font-size: 20px;
@@ -32,7 +31,7 @@
 }
 .leg{
 	position: relative;
-	left: 70px;
+	left: 80px;
 }
 .travel-time{
     font-family: 'Cantarell';
@@ -41,4 +40,8 @@
     position: relative;
     margin-right: -70px;
     color: lightslategrey;
+}
+#chartContainer{
+	width: 800px;
+	height: 500px;
 }

@@ -40,6 +40,11 @@
 		<input type="date">
 		<button id="sort-by-delta">Time Difference</button>
 	</div>
+
+	<div id="chartContainer">
+		<canvas id="flightsChart" width="400" height="200"></canvas>
+	</div>
+
 	<div class="rawResults">
 		<div class="flight-result">
 			<h3 class="price">$56.30</h3>
@@ -70,12 +75,14 @@
   <script src="./lib/js/moment.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.14/moment-timezone-with-data-2012-2022.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script>
   <!--   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk"  ></script> -->
     <!-- <script src="./js/gmaps.min.js"></script> -->
 <!--     <script src="https://cdn.rawgit.com/noelboss/featherlight/1.7.12/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script> -->
 <!-- 	<script src="./lib/js/featherlight.js"></script>
  -->	<script src='flightresults.js'></script>
 	<script src="app.js"></script>
+  <script src="chartjs.js"></script>
 	<script>
 		
 	</script>

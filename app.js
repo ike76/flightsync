@@ -97,6 +97,7 @@ function handleFlightSearch(obj){
 			// console.log(json);
 			result = new FlightResultGroup(json, obj.zones);
 			result.displayAllItineraries();
+			result.chartAllItineraries();
 			// resultsArray.push(result);
 	}).fail(err=> console.log(`there was an error: ${err}`));
 }
