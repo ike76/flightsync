@@ -14,7 +14,6 @@
 <body>
 
 <main>
-	<h1>Search for Flights</h1>
 
 	<form action="#" id="searchFlights">
 			
@@ -25,12 +24,17 @@
 
 			<label for="departure_date" >Departure Date</label>
 			<input type="date" id="departure_date"><br><br>
-			<label for="origin" class="control-label">From:</label>
-			<input type="text" id="origin"><br><br>
-			<label for="destination" class="control-label">To:</label>
+			<label for="origin1" class="control-label">From Airport 1:</label>
+			<input type="text" id="origin1"><br><br>
+			<label for="origin2" class="control-label">From Airport 2:</label>
+			<input type="text" id="origin2"><br><br>
+			<label for="origin3" class="control-label">From Airport 3:</label>
+			<input type="text" id="origin3"><br><br>
+			<hr>
+			<label for="destination" class="control-label">Arrival Airport (everyone):</label>
 			<input type="text" id="destination" id="autocomplete"><br><br>
-			<label for="return_date">Return Date</label>
-			<input type="date" id="return_date">
+<!-- 			<label for="return_date">Return Date</label>
+			<input type="date" id="return_date"> -->
 			<button type="submit">Search</button>
 		</fieldset>
 	</form>

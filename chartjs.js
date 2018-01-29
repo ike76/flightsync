@@ -34,15 +34,15 @@ function createChart(flightData){
 	                position: 'bottom',
 	                time: {
 				        displayFormats: {
-				           'millisecond': 'h:mm a',
-				           'second': 'h:mm a',
+				           // 'millisecond': 'h:mm a',
+				           // 'second': 'h:mm a',
 				           'minute': 'h:mm a',
-				           'hour': 'h:mm a',
+				           'hour': 'h a',
 				           'day': 'h:mm a',
-				           'week': 'h:mm a',
-				           'month': 'h:mm a',
-				           'quarter': 'h:mm a',
-				           'year': 'h:mm a',
+				           // 'week': 'h:mm a',
+				           // 'month': 'h:mm a',
+				           // 'quarter': 'h:mm a',
+				           // 'year': 'h:mm a',
 				        }
 		            }
 	            }]

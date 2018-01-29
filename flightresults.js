@@ -58,13 +58,7 @@ class FlightResultGroup { // several flight options
 			return Math.abs(eachDelta) - Math.abs(otherDelta);
 		});
 	}
-	sortItineraries(arrayOfItins = this.itineraries, sortFunction = this.sortByDuration){
-		console.log('before the sort');
-		console.log(arrayOfItins);
-		arrayOfItins.sort(sortFunction);
-		console.log('after the sort');
-		console.log(arrayOfItins);
-	}
+	
 	displayAllItineraries(itineraryArray = this.itineraries, selector = '.rawResults'){
 		let itinHTML = itineraryArray.map(itin => this.formatItineraryHTML(itin));
 		$(selector).html(itinHTML);
