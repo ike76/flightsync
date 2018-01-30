@@ -15,9 +15,11 @@ let blue = 'rgba(0, 47, 255, 0.8)'
 let green = 'rgba(0, 255, 135, 0.8)'
 let yellow = 'rgba(255, 255, 0, 0.8)'
 
+let scatterChart;
+
 function createChart(datasets){
-	var scatterChart = new Chart(ctx, {
-	    type: 'scatter',
+	 scatterChart = new Chart(ctx, {
+	    type: 'bubble',
 	    data: {
 	        datasets: datasets,
         },

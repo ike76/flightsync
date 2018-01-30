@@ -8,6 +8,8 @@ class FlightResultGroup { // several flight options
 		this.origZone = origZone;
 		this.destZone = destZone;
 		this.color = color;
+		this.prices = this.doPriceRange();
+		this.times = this.doTravelTimes();
 	};
 	
 	parseItineraries(data){
@@ -62,19 +64,58 @@ class FlightResultGroup { // several flight options
 			return Math.abs(eachDelta) - Math.abs(otherDelta);
 		});
 	}
-	
+	doPriceRange(){
+		let pricesArr = this.itineraries.map(itin=>{
+			return itin.fare
+		});
+		pricesArr.sort((p,e) =>  p-e);
+		return {
+			all: pricesArr,
+			low: pricesArr[0],
+			high: pricesArr[pricesArr.length -1],
+			med: pricesArr[Math.floor(pricesArr.length/2)]
+		}
+
+	};
+	doTravelTimes(){
+		let timesArr = this.itineraries.map(itin=>{
+			return itin.duration._milliseconds
+		})
+		timesArr.sort((t,e)=> t-e)
+		console.log('trav times', timesArr)
+		return {
+			all: timesArr,
+			low: timesArr[0],
+			high: timesArr[timesArr.length -1],
+			med: timesArr[Math.floor(timesArr.length/2)]
+		}
+	}
 	displayAllItineraries(itineraryArray = this.itineraries, selector = '.rawResults'){
 		let itinHTML = itineraryArray.map(itin => this.formatItineraryHTML(itin));
 		$(selector).html(itinHTML);
 	};
+	getR(itin, maxSize, minSize){
+			// if this is the biggest, it would be 1.
+			// any other number is a fraction of the biggest.  (a .25 of 1)
+			let percentage = itin.duration._milliseconds / this.times.high
+			console.log('percentage', percentage);
+			return (maxSize-4) * percentage + minSize;
+	};
 	createDataSet(){
+			let maxSize = 10;
+			let minSize = 3;
+			// let range = maxSize - minSize;
+
 		let dataArray = this.itineraries.map(itin=>{
-			return {x: itin.arrTimeLocal, y: itin.fare}
+			return {x: itin.arrTimeLocal, y: itin.fare, r: this.getR(itin, maxSize, minSize)}
 		});
+
+
+
 		let dataset = {
 			label: this.orig,
 			backgroundColor: this.color,
-			radius: 5, 
+			// radius: 10, 
 			data: dataArray,
 		};
 		store.chartDatasets.push(dataset);

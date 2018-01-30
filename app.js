@@ -69,7 +69,6 @@ function createFlightSearchPromises(){
 			return new FlightResultGroup(each, store.timeZones[i], store.timeZones[store.timeZones.length -1], store.origins[i], store.destination, store.colors[i])
 		})
 	}).then((data)=>{
-		console.log('data from 2nd chained promise', data);
 		store.resultsObjects.forEach(result=>{
 			result.createDataSet();;
 		})
