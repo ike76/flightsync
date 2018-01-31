@@ -1,12 +1,10 @@
 .airport{
 	font-weight: bold;
 }
-#range-slider, #max-slider{
-	/*width: 400px;*/
-	margin: 30px auto 10px;
-}
+
 div.sliders{
-	width: 400px;
+	/*width: 400px;*/
+	/*position: absolute;*/
 }
 
 
@@ -66,12 +64,7 @@ div.sliders{
     margin-right: -70px;
     color: lightslategrey;
 }
-#chartContainer{
-	width: 800px;
-	height: 500px;
-	border: 1px solid grey;
-	margin-top: 15px;
-}
+
 .fa-question-circle{
 	font-size: 25px;
 	color: w3-metro-dark-blue;

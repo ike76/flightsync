@@ -69,11 +69,14 @@ class FlightResultGroup { // several flight options
 			return itin.fare
 		});
 		pricesArr.sort((p,e) =>  p-e);
+		let all = pricesArr;
+		let low = pricesArr[0]
+		let high = pricesArr[pricesArr.length -1]
+		let med = pricesArr[Math.floor(pricesArr.length/2)]
+		store.prices.push(...all)
+		store.prices.sort((p,o) => p-o )
 		return {
-			all: pricesArr,
-			low: pricesArr[0],
-			high: pricesArr[pricesArr.length -1],
-			med: pricesArr[Math.floor(pricesArr.length/2)]
+			all, low, high, med
 		}
 
 	};

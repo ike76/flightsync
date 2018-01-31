@@ -35,17 +35,16 @@ $('#origin3').val('LAX');
 
 $('#destination').val('MCO');
 
-let store = {
+const store = {
 		departure_date: '',
-		// return_date: '',
-		origin: '',  // this may need to become an array called origins
+		// origin: '',  
 		origins: [],
 		destination: '',
-		zones: '',
 		resultsObjects: [],
 		timeZones: [],
 		chartDatasets: [],
-		oldcolors: ['rgba(204, 80, 0, 0.8)', 'rgba(0, 47, 255, 0.8)', 'rgba(0, 255, 135, 0.8)', 'rgba(204, 80, 0, 0.8)'],
+		chartDatasetsFiltered: [],
+		prices: ["54.30", "54.30", "60.30", "60.30", "100.30", "115.00", "115.00", "115.00", "119.20", "119.20", "119.20", "120.60", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "129.30", "147.00", "154.30", "154.30", "154.30", "198.00", "203.30", "213.30", "241.39", "249.60", "309.00", "534.30", "905.50", "905.50", "1114.30", "1114.30", "1135.00", "1155.30", "1181.00", "1181.00", "1181.00", "1196.00", "1375.30", "1384.00", "1384.00", "1384.00"],
 		colors: ['rgba(192, 57, 43,1.0)', //red
 		 'rgba(39, 174, 96,1.0)', // green
 		 'rgba(241, 196, 15,1.0)', //yellow
@@ -56,51 +55,45 @@ let store = {
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 
 		timeZoneKey: 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI',
+		fsAppId: '0a175eb8',
+		fsAppKey: 'defecb4c87ed09385f30279c56e56a11'
 };
 
 
 $('#searchFlights').on('submit', function(event){
 	event.preventDefault();
-	let departure_date = $(this).find('#departure_date').val();
-	console.log(departure_date);
-	// let return_date = $(this).find('#return_date').val();
-	
-	// make this an array of origin airports
-	originAirports = $(this).find('.origin-airport');
+	store.prices = []; //empty it out.
 
-	console.log('originAirports', originAirports)
-	let origin = $(this).find('#origin1').val();
-	let origin2 = $(this).find('#origin2').val();
-	let origin3 = $(this).find('#origin3').val();
-	let destination = $(this).find('#destination').val();
-	// let zones = getTimeZoneNames(origin, destination)
-	// populate the store here 
-	store.origins = [origin, origin2, origin3];
-	store.destination = destination;
-	store.departure_date = departure_date;
+	store.departure_date = $(this).find('#departure_date').val();
+	//populate the store.origin array with origin airports
+	$(this).find('.origin-airport').each(function(){
+		store.origins.push(this.value)
+	})
+	store.destination = $(this).find('#destination').val();
 
+	// let origin = $(this).find('#origin1').val();
+	// let origin2 = $(this).find('#origin2').val();
+	// let origin3 = $(this).find('#origin3').val();
+	getTimeZones([...store.origins, store.destination]);
 	createFlightSearchPromises();
 	// handleFlightSearch();
 })
 
 function createFlightSearchPromises(){
-	const timeZones = [ ...store.origins, store.destination ].map(airport => {
-		return new Promise((resolve, reject)=>{
-			getTimeZoneName(airport, resolve)
-		})
-	})
+	// const timeZones = [ ...store.origins, store.destination ].map(airport => {
+	// 	return new Promise((resolve, reject)=>{
+	// 		getTimeZoneName(airport, resolve)
+	// 	})
+	// })
 
 	const promises = [ ...store.origins ].map(origin => {
 		return new Promise((resolve, reject)=>{
 			handleFlightSearch(origin, resolve)
 		})
 	})
-	Promise.all(timeZones).then(zoneinfo => {
-		console.log('zoneinfo is', zoneinfo);
-		store.timeZones = zoneinfo.map(each => each.airports[0].timezone  );
-	})
+
 	Promise.all(promises).then(flightPlansArr => {
-		console.log('flightPlansArr is ->',flightPlansArr);
+		// console.log('flightPlansArr is ->',flightPlansArr);
 		store.resultsObjects = flightPlansArr.map((each, i)=> {
 			return new FlightResultGroup(each, store.timeZones[i], store.timeZones[store.timeZones.length -1], store.origins[i], store.destination, store.colors[i])
 		})
@@ -109,20 +102,16 @@ function createFlightSearchPromises(){
 			result.createDataSet();;
 		})
 		createChart(store.chartDatasets)
+		createSliders()
 	})
 
 }
 
 
-function getTimeZoneName(airport, resolve){
-	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${airport}/`, {apikey: apikey}, function(json){
-		console.log('timezone info', json)
-		resolve(json)
-	}).fail(e=>console.log('timezone error', e))
-	// .done(zoneinfo => {
-	// 	console.log('info from getTimeZoneName', zoneinfo);
-	// 	resolve(zoneinfo);
-	// })
+function getTimeZones(arr){
+	console.log('tz arr', arr)
+	let zones = arr.map(a => airports.find(ap=> ap.code.toLowerCase()===a.toLowerCase()).tz)
+	store.timeZones = zones;
 }
 
 

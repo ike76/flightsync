@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>FlightMerge</title>
+	<title>flight-sync</title>
 	<meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
 	<link href="https://fonts.googleapis.com/css?family=Cantarell|Fjalla+One" rel="stylesheet">
@@ -11,7 +11,7 @@
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" href="./lib/css/nouislider.min.css">
 	<link rel="stylesheet" href="sliders.css">
-	<link rel="stylesheet" href="grid.css">
+	<link rel="stylesheet" href="./lib/css/grid.css">
 	<link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -23,12 +23,6 @@
 	<div class="slider-container">
 		<div id="arrival-slider" ></div>
 	</div> -->
-	<div class="sliders">
-		<div id="range-slider"></div>
-		Showing flights between <span class="earliest">4pm</span> and <span class="latest">11pm</span>
-		<div id="max-slider"></div>
-		<div id="max-price-display">Max Price: <span></span></div> 
-	</div>
 
 	<div class="ui-widget" >
 		<label for="destination-airport">
@@ -78,8 +72,25 @@
 		<button id="sort-by-delta">Time Difference</button>
 	</div>
  -->
-	<div id="chartContainer">
-		<canvas id="flightsChart" width="400" height="200"></canvas>
+ 	<div class="chart-sliders-container">
+		<div id="chartContainer">
+			<canvas id="flightsChart"> </canvas>
+		</div>
+		<div class="sliders">
+			<div id="max-price-display" class="horiz-slider">
+				<div>
+					Max Price: <span></span>
+				</div> 
+				
+			</div> 
+			<div id="max-slider">
+			</div>
+
+			<div id="time-range-display"  class="horiz-slider">Showing flights between <span class="earliest">4pm</span> and <span class="latest">11pm</span></div>
+			<div id="range-slider"></div>
+			
+		</div>
+ 		
 	</div>
 	
 
@@ -106,7 +117,7 @@
 
 
 
-
+<script src='./lib/js/airports.js'></script>
 <script src="./lib/js/jquery-3.3.1.min.js"></script>
 <script src="./lib/js/jquery-ui.min.js"></script>
 <script src="./lib/js/moment.js"></script>
@@ -116,6 +127,7 @@
 <script src="./lib/js/nouislider.min.js"></script>
 <script src="autocompletemine.js"></script>
 <script src="searchboxes.js"></script>
+<script src="airportinfo.js"></script>
 <script src='flightresults.js'></script>
 <script src="chartjs.js"></script>
 <script src="app.js"></script>
