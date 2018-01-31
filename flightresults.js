@@ -82,7 +82,7 @@ class FlightResultGroup { // several flight options
 			return itin.duration._milliseconds
 		})
 		timesArr.sort((t,e)=> t-e)
-		console.log('trav times', timesArr)
+		// console.log('trav times', timesArr)
 		return {
 			all: timesArr,
 			low: timesArr[0],
@@ -98,7 +98,6 @@ class FlightResultGroup { // several flight options
 			// if this is the biggest, it would be 1.
 			// any other number is a fraction of the biggest.  (a .25 of 1)
 			let percentage = itin.duration._milliseconds / this.times.high
-			console.log('percentage', percentage);
 			return (maxSize-4) * percentage + minSize;
 	};
 	createDataSet(){

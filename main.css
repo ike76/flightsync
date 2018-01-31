@@ -1,3 +1,28 @@
+.airport{
+	font-weight: bold;
+}
+#range-slider, #max-slider{
+	/*width: 400px;*/
+	margin: 30px auto 10px;
+}
+div.sliders{
+	width: 400px;
+}
+
+
+.airport.origin1{
+	color: maroon;
+}
+.airport.origin2{
+	color: blue;
+}
+.airport.origin3{
+	color: darkorange;
+}
+.airport.destination{
+	color: green;
+}
+
 .flight-result{
 	border: 1px lightgrey solid;
 	border-radius: 10px;
@@ -46,4 +71,8 @@
 	height: 500px;
 	border: 1px solid grey;
 	margin-top: 15px;
+}
+.fa-question-circle{
+	font-size: 25px;
+	color: w3-metro-dark-blue;
 }

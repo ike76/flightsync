@@ -1,0 +1,7 @@
+.sliders {
+    width: 600px; /* Width of the outside container */
+    margin: 50px;
+}
+.ui-slider-range-min{
+    color: blue;
+}

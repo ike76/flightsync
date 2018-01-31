@@ -1,8 +1,31 @@
 const apikey = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
 const googApiKey = 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk';
 const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
+const fsAppId = '0a175eb8';
+const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
-$('#flightsChart').on('click', e=>console.log(e))
+$('#flightsChart').on('click', e=>console.log(e)) // click dots on map
+
+$( "#price-slider" ).slider({
+	classes: {
+		"ui-slider": "highlight",
+	},
+	range: 'min',
+	min: 10,
+	max: 100,
+	value: 100,
+});
+$( "#arrival-slider" ).slider({
+	classes: {
+		"ui-slider": "highlight",
+
+	},
+	range: true,
+	min: 10,
+	max: 100,
+	values: [10,100],
+});
+
 // prefill search boxes with default values
 document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
 // document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
@@ -22,17 +45,30 @@ let store = {
 		resultsObjects: [],
 		timeZones: [],
 		chartDatasets: [],
-		colors: ['rgba(204, 80, 0, 0.8)', 'rgba(0, 47, 255, 0.8)', 'rgba(0, 255, 135, 0.8)', 'rgba(204, 80, 0, 0.8)'],
+		oldcolors: ['rgba(204, 80, 0, 0.8)', 'rgba(0, 47, 255, 0.8)', 'rgba(0, 255, 135, 0.8)', 'rgba(204, 80, 0, 0.8)'],
+		colors: ['rgba(192, 57, 43,1.0)', //red
+		 'rgba(39, 174, 96,1.0)', // green
+		 'rgba(241, 196, 15,1.0)', //yellow
+		 'rgba(41, 128, 185,1.0)', //blue
+		 'rgba(230, 126, 34,1.0)', //orange
+		 'rgba(142, 68, 173,1.0)', //purple
+		 'rgba(44, 62, 80,1.0)'],
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 
 		timeZoneKey: 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI',
 };
 
+
 $('#searchFlights').on('submit', function(event){
 	event.preventDefault();
 	let departure_date = $(this).find('#departure_date').val();
+	console.log(departure_date);
 	// let return_date = $(this).find('#return_date').val();
+	
+	// make this an array of origin airports
+	originAirports = $(this).find('.origin-airport');
 
+	console.log('originAirports', originAirports)
 	let origin = $(this).find('#origin1').val();
 	let origin2 = $(this).find('#origin2').val();
 	let origin3 = $(this).find('#origin3').val();
@@ -73,7 +109,6 @@ function createFlightSearchPromises(){
 			result.createDataSet();;
 		})
 		createChart(store.chartDatasets)
-
 	})
 
 }
@@ -81,11 +116,13 @@ function createFlightSearchPromises(){
 
 function getTimeZoneName(airport, resolve){
 	$.getJSON(`https://api.sandbox.amadeus.com/v1.2/location/${airport}/`, {apikey: apikey}, function(json){
-		// zones.orig = json.airports[0].timezone
-	}).done(zoneinfo => {
-		console.log('info from getTimeZoneName', zoneinfo);
-		resolve(zoneinfo);
-	})
+		console.log('timezone info', json)
+		resolve(json)
+	}).fail(e=>console.log('timezone error', e))
+	// .done(zoneinfo => {
+	// 	console.log('info from getTimeZoneName', zoneinfo);
+	// 	resolve(zoneinfo);
+	// })
 }
 
 
