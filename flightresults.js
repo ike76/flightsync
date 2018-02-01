@@ -103,24 +103,46 @@ class FlightResultGroup { // several flight options
 			let percentage = itin.duration._milliseconds / this.times.high
 			return (maxSize-4) * percentage + minSize;
 	};
-	createDataSet(){
+	createDataSets(){
 			let maxSize = 10;
 			let minSize = 3;
 			// let range = maxSize - minSize;
 
 		let dataArray = this.itineraries.map(itin=>{
-			return {x: itin.arrTimeLocal, y: itin.fare, r: this.getR(itin, maxSize, minSize)}
+			return {x: itin.arrTimeLocal, y: Number(itin.fare), r: this.getR(itin, maxSize, minSize)}
 		});
 
+		//'latest' is some time in 1969, so its easy to beat when we start comparing.
+		//earliest is far far in the future same reason.
+		let timeset = this.itineraries.map(itin=>{
+			return itin.arrTimeLocal
+		})
 
+		// put them in order from earliest to latest
+		timeset.sort((e,o)=> e - o)
 
+		// set the earliest and latest of all itineraries
+		let latest = moment().subtract(100, 'years');
+		let earliest = moment().add(100, 'years');
+		if (timeset[0] < earliest) {
+			earliest = timeset[0];
+			console.log('earliest reset to', earliest);
+		};
+		if (timeset[timeset.length - 1] > latest){
+			latest = timeset[timeset.length-1]
+			console.log('latest reset to', latest);
+		};
+
+		dataArray.sort(function(e,o){ return e.y - o.y }) // put them in order of price.
 		let dataset = {
 			label: this.orig,
 			backgroundColor: this.color,
 			// radius: 10, 
 			data: dataArray,
 		};
+		store.timeBounds = {latest, earliest}
 		store.chartDatasets.push(dataset);
+		store.chartTimesets.push(timeset);
 	};
 	// chartAllItineraries(itins = this.itineraries, by = 'landing'){
 	// 	let dataArray = [];
