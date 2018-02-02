@@ -25,10 +25,10 @@ div.sliders{
 	border: 1px lightgrey solid;
 	border-radius: 10px;
 	padding: 5px 10px;
-	position: relative;
-	display: inline-block;
+	/*position: relative;*/
+	display: flex;
 	margin-top: 15px;
-	padding-right: 90px; /*because .leg has 80px left position*/
+	/*padding-right: 90px; because .leg has 80px left position*/
 	
 }
 
@@ -36,8 +36,9 @@ div.sliders{
 	font-family: 'Fjalla One', sans-serif;
 	font-size: 20px;
 	float: left;
+	height: 100%;
 	/*margin-right: 20px;*/
-	position: absolute;
+	/*position: absolute;*/
 	top: 10px;
 	margin: 0;
 }
@@ -46,15 +47,16 @@ div.sliders{
 	margin: 0;
 	font-size: 15px;
 }
-.flight-result .maininfo {
-
+.flight-result .x-out {
+	float: right;
+	height: 100%;
 }
 .flight-result .otherinfo {
 	color: lightgrey;
 }
 .leg{
-	position: relative;
-	left: 80px;
+	/*position: relative;
+	left: 80px;*/
 }
 .travel-time{
     font-family: 'Cantarell';
