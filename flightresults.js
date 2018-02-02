@@ -108,29 +108,57 @@ class FlightResultGroup { // several flight options
 			let minSize = 3;
 			// let range = maxSize - minSize;
 
+		function topLine(itin){
+			let airport1 = itin.outbound.flights[0].origin.airport
+			let html = airport1;
+			let flights = itin.outbound.flights;
+			for (let i=0; i<flights.length; i++){
+				html += ` ✈︎ ${flights[i].destination.airport}`;
+			}
+			return html;
+		}
+		function midLine(itin){
+			let text = '';
+			itin.outbound.flights.forEach((f,i)=>{
+				if (i){ // if this is NOT the first one
+					text += ` ⎪ ${f.marketing_airline} #${f.flight_number}`
+				} else {
+					text += `${f.marketing_airline} #${f.flight_number}`;
+				}
+			})
+			return text;
+		}
+		function botLine(itin){
+			let hours = Math.floor(itin.duration.asHours())
+			let minutes = itin.duration.minutes()
+			return `travel time: ${hours}hr ${minutes}min`
+		}
 		let dataArray = this.itineraries.map(itin=>{
-			return {x: itin.arrTimeLocal, y: Number(itin.fare), r: this.getR(itin, maxSize, minSize)}
+			return {
+				x: itin.arrTimeLocal, 
+				y: Number(itin.fare), 
+				r: this.getR(itin, maxSize, minSize),
+				topLine: topLine(itin),
+				midLine: midLine(itin),
+				botLine: botLine(itin),
+				price: `$${itin.fare}`, 
+				html: this.formatItineraryHTML(itin),
+			};
 		});
-
-		//'latest' is some time in 1969, so its easy to beat when we start comparing.
-		//earliest is far far in the future same reason.
 		let timeset = this.itineraries.map(itin=>{
 			return itin.arrTimeLocal
 		})
 
-		// put them in order from earliest to latest
-		timeset.sort((e,o)=> e - o)
 
 		// set the earliest and latest of all itineraries
-		let latest = moment().subtract(100, 'years');
-		let earliest = moment().add(100, 'years');
-		if (timeset[0] < earliest) {
-			earliest = timeset[0];
-			console.log('earliest reset to', earliest);
+
+		if (timeset[0] < store.timeBounds.earliest) {
+			store.timeBounds.earliest = timeset[0];
+			console.log('earliest reset to', store.timeBounds.earliest);
 		};
-		if (timeset[timeset.length - 1] > latest){
-			latest = timeset[timeset.length-1]
-			console.log('latest reset to', latest);
+		if (timeset[timeset.length - 1] > store.timeBounds.latest){
+			store.timeBounds.latest = timeset[timeset.length-1]
+			console.log('latest reset to', store.timeBounds.latest);
 		};
 
 		dataArray.sort(function(e,o){ return e.y - o.y }) // put them in order of price.
@@ -140,20 +168,10 @@ class FlightResultGroup { // several flight options
 			// radius: 10, 
 			data: dataArray,
 		};
-		store.timeBounds = {latest, earliest}
 		store.chartDatasets.push(dataset);
 		store.chartTimesets.push(timeset);
 	};
-	// chartAllItineraries(itins = this.itineraries, by = 'landing'){
-	// 	let dataArray = [];
-	// 	if (by === 'landing') {
-	// 		itins.forEach(each=>{
-	// 			dataArray.push({x: each.arrTimeLocal  , y: each.fare  })
-	// 		})
-	// 	console.log(dataArray)
-	// 	createChart(dataArray)
-	// 	}
-	// }
+
 }
 
 const resultsArray = []; // several groups of flight options

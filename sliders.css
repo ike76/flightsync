@@ -1,6 +1,6 @@
 .sliders {
     width: 90%; /* Width of the outside container */
-	margin: 80px auto 10px;
+	margin: 20px auto 10px;
     /*margin: 50px;*/
 }
 .sliders .horiz-slider{
@@ -17,6 +17,7 @@
 }
 #range-slider{
 	width: 100%;
+	margin-top: 10px;
 /*	position: absolute;
 	width: 90%;
 	right: 10px;
@@ -36,14 +37,11 @@
 	justify-content: space-around;
 	align-items: center;*/
 }
-#time-range-display{
+#time-range-display, #max-price-display{
+	margin-top: 5px;
 	/*position: absolute;
 	bottom: 34px;
 	right: 10px;*/
-}
-#max-price-display{
-	/*position: absolute;*/
-	/*top: 0;*/
 }
 #chartContainer{
 	width: 100%;

@@ -4,7 +4,7 @@ const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
 const fsAppId = '0a175eb8';
 const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
-$('#flightsChart').on('click', e=>console.log(e)) // click dots on map
+
 
 $( "#price-slider" ).slider({
 	classes: {
@@ -44,6 +44,7 @@ const store = {
 		timeZones: [],
 		chartDatasets: [],
 		chartTimesets: [],
+		timeBounds: {earliest: moment().add(100, 'years') ,latest: moment().subtract(100, 'years')},
 		filterPoints: {price: 100000, times: [0,10000000000]},
 		prices: ["54.30", "54.30", "60.30", "60.30", "100.30", "115.00", "115.00", "115.00", "119.20", "119.20", "119.20", "120.60", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "129.30", "147.00", "154.30", "154.30", "154.30", "198.00", "203.30", "213.30", "241.39", "249.60", "309.00", "534.30", "905.50", "905.50", "1114.30", "1114.30", "1135.00", "1155.30", "1181.00", "1181.00", "1181.00", "1196.00", "1375.30", "1384.00", "1384.00", "1384.00"],
 		colors: ['rgba(192, 57, 43,1.0)', //red
