@@ -5,9 +5,11 @@ let ctx = $('#flightsChart');
 
 let chart;
 
+
 function createChart(datasets){
 	 chart = new Chart(ctx, {
-	    type: 'bubble',
+	    type: 'scatter',
+	    pointRadius: 10,
 	    data: {
 	        datasets: datasets,
         },
@@ -23,7 +25,6 @@ function createChart(datasets){
 				           'day': 'h:mm a',
 				        }
 		            }
-
 	            }],
 	            yAxes: [{
 	            	ticks: {
@@ -31,10 +32,6 @@ function createChart(datasets){
 	            			return `$${label}`
 	            		}
 	            	},
-	            	scaleLabel: {
-	            		display: true,
-	            		labelString: 'hello'
-	            	}
 	            }]
 		    },// end scales
 		    tooltips: {
@@ -84,6 +81,8 @@ function createChart(datasets){
 	})// end new Chart block
 }// end function createChart
 
+
+
 $('#flightsChart').on('click', function(e){
 
 	let clicked = chart.getElementAtEvent(e);
@@ -93,6 +92,8 @@ $('#flightsChart').on('click', function(e){
 	console.log('clicked', clicked[0]._model.backgroundColor)
 	$('.rawResults').append(itinObj.html)
 }) // click dots on map
+
+	
 
 let moneyFormat = wNumb({
 	mark: '.',
@@ -145,23 +146,30 @@ function createSliders(){
 		updateItins();
 	})
 
+	$('#nonStopCheckBox').on('change', function(){
+		this.checked ? store.filterPoints.nonStopOnly = true : store.filterPoints.nonStopOnly = false;
+		updateItins();
+	})
 
-	function updateItins(timeValues = store.filterPoints.times, cutoffPrice = store.filterPoints.price){
+
+
+	function updateItins(timeValues = store.filterPoints.times, cutoffPrice = store.filterPoints.price, nonStopOnly = store.filterPoints.nonStopOnly){
 		chart.data.datasets.forEach(city=>{
 			if (typeof city.dataFiltered === 'undefined'){ city.dataFiltered = [] }; // set up filtered array
 			let keep = [];
 			let filterOut = [];
 			[...city.dataFiltered, ...city.data].forEach(e => {
 
-				if (e.y > cutoffPrice) {filterOut.push(e); console.log('above price cutoff', e.y)} 
-				else if (e.x < moment.unix(timeValues[0])) {filterOut.push(e); console.log('below time', e.x)} 
-				else if (e.x > moment.unix(timeValues[1])) {filterOut.push(e); console.log('above time', e.x)} 
+				if (e.y > cutoffPrice) {filterOut.push(e); } 
+				else if (e.x < moment.unix(timeValues[0])) {filterOut.push(e); } 
+				else if (e.x > moment.unix(timeValues[1])) {filterOut.push(e); } 
+				else if (nonStopOnly && !e.nonStop) {filterOut.push(e);}
 				else keep.push(e)
 			})
 			city.data = keep;
 			city.dataFiltered = filterOut;
 		})
-		chart.update({duration:200})
+		chart.update({duration:50})
 	}
 	
 }

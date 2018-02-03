@@ -76,7 +76,7 @@
 		<div id="chartContainer">
 			<canvas id="flightsChart"> </canvas>
 		</div>
-		<div class="sliders">
+		<div class="sliders filters">
 			<div id="max-slider">
 			</div>
 			<div id="max-price-display" class="horiz-slider">
@@ -86,6 +86,10 @@
 			<div id="range-slider"></div>
 			<div id="time-range-display"  class="horiz-slider">Showing flights landing between <span class="earliest">4pm</span> and <span class="latest">11pm</span></div>
 			
+			<form action="./">
+				<label for="nonStopCheckBox">Nonstop Flights Only</label>
+				<input type="checkbox" id="nonStopCheckBox" name="checkBox">
+			</form>
 		</div>
  		
 	</div>

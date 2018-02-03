@@ -20,6 +20,8 @@ class FlightResultGroup { // several flight options
 				itinerary.origZone = this.origZone;
 				itinerary.destZone = this.destZone;
 				itinerary.fare = fare;
+				itinerary.travelerPay = this.getTravelerPay(itinerary);
+				itinerary.travelerRate = this.travelerRate;
 				itinerary.duration = this.getTravelTime(itinerary);
 				itinerary.minutes = this.getTravelTime(itinerary).asMinutes();;
 				itinerary.depTimeLocal = moment(itinerary.outbound.flights[0].departs_at)
@@ -29,6 +31,9 @@ class FlightResultGroup { // several flight options
 		})
 		console.log(itineraryArray);
 		return itineraryArray;
+	};
+	getTravelerPay(itin){
+		return 42;
 	};
 	getTravelTime(itin){ 
 		let startTime = moment.tz(itin.outbound.flights[0].departs_at, this.origZone);
@@ -159,6 +164,7 @@ class FlightResultGroup { // several flight options
 				x: itin.arrTimeLocal, 
 				y: Number(itin.fare), 
 				r: this.getR(itin, maxSize, minSize),
+				nonStop: (itin.outbound.flights.length === 1),
 				topLine: topLine(itin),
 				midLine: midLine(itin),
 				botLine: botLine(itin),
