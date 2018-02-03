@@ -174,4 +174,12 @@ function createSliders(){
 	
 }
 
+// handle chosen flights button clicks
+$('.rawResults').on('click', '.remove', function(event){
+	$(this).closest('.flight-result').fadeOut();
+})
+$('.rawResults').on('click', '.book', function(event){
+	$(this).closest('.flight-result').fadeOut();
+})
+
 

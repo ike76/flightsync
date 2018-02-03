@@ -17,54 +17,77 @@
 <body>
 
 <main>
-	<!-- <div class="slider-container">
-		<div id="price-slider" ></div>
-	</div>
-	<div class="slider-container">
-		<div id="arrival-slider" ></div>
-	</div> -->
 
-	<div class="ui-widget" >
-		<label for="destination-airport">
-			1. What is your Destination? <br><i class="fas fa-question-circle"></i>
-			(at which airport are you trying to meet?)
-		</label>
-		<input type="text" id="destination-airport" class="airport-auto destination-airport">
-	</div>
-	<div class="ui-widget">
-		<p>
-			<label for="origin-airport-dynamic">2. Add starting airport(s): </label> 
-			<input type="text" id='origin-airport' class="airport-auto origin-airport">
-			<input type="button" name="submit" value="go"></p>
-	</div>
-	<div class="display-searches">
-		
-	</div>
+
 	
+	
+	<div class="searchForm">
+		<form action="#" id="searchFlights">
+			<fieldset>
+				<legend>Search For Flights</legend>
 
-	<form action="#" id="searchFlights">
-			
-		<fieldset>
-			<legend>Search For Flights</legend>
+				<div class="searchBox">
+					<label for="departure_date" >Departure Date</label>
+					<input type="date" id="departure_date"><br><br>
+				</div>
+				<div class="searchBox">
+					<div>
+						<label for="origin1" class="control-label">From:</label>
+						<input type="text" id="origin1" class="origin-airport">
+					</div>
+					<div class="airportInfo">
+						<div class="displayAirportName search" ></div>
+						<div class="displayAirportCityState search"></div>
+					</div>
+				</div>
+				<div class="searchBox">
+					<div>
+						<label for="origin2" class="control-label">From:</label>
+						<input type="text" id="origin2" class="origin-airport">
+					</div>
+					<div class="airportInfo">
+						<div class="displayAirportName search" ></div>
+						<div class="displayAirportCityState search"></div>
+					</div>
+				</div>
+				<div class="searchBox">
+					<div>
+						<label for="origin3" class="control-label">From:</label>
+						<input type="text" id="origin3" class="origin-airport">
+					</div>
+					<div class="airportInfo">
+						<div class="displayAirportName search" ></div>
+						<div class="displayAirportCityState search"></div>
+					</div>
+				</div>
+				<div class="searchBox">
+					<div>
+						<label for="origin4" class="control-label">From:</label>
+						<input type="text" id="origin4" class="origin-airport">
+					</div>
+					<div class="airportInfo">
+						<div class="displayAirportName search" ></div>
+						<div class="displayAirportCityState search"></div>
+					</div>
+				</div>
+				
+				<hr>
 
-
-
-			<label for="departure_date" >Departure Date</label>
-			<input type="date" id="departure_date"><br><br>
-			<label for="origin1" class="control-label">From Airport 1:</label>
-			<input type="text" id="origin1" class="origin-airport"><br><br>
-			<label for="origin2" class="control-label">From Airport 2:</label>
-			<input type="text" id="origin2" class="origin-airport"><br><br>
-			<label for="origin3" class="control-label">From Airport 3:</label>
-			<input type="text" id="origin3" class="origin-airport"><br><br>
-			<hr>
-			<label for="destination" class="control-label">Arrival Airport (everyone):</label>
-			<input type="text" id="destination" id="autocomplete"><br><br>
-<!-- 			<label for="return_date">Return Date</label>
-			<input type="date" id="return_date"> -->
-			<button type="submit">Search</button>
-		</fieldset>
-	</form>
+				<div class="searchBox">
+					<div>
+						<label for="destination" class="control-label">To:</label>
+						<input type="text" id="destination" class="origin-airport">
+					</div>
+					<div class="airportInfo">
+						<div class="displayAirportName search" ></div>
+						<div class="displayAirportCityState search"></div>
+					</div>
+				</div>
+				
+				<button type="submit">Search</button>
+			</fieldset>
+		</form>
+	</div>
 	<!-- <div class="buttons">
 		<button id="sort-by-Price">PRICE</button> 
 		<button id="sort-by-length">DURATION</button>

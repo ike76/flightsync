@@ -33,7 +33,7 @@ $('#origin1').val('MSP');
 $('#origin2').val('DFW');
 $('#origin3').val('LAX');
 
-$('#destination').val('MCO');
+$('#destination').val('LGW');
 
 const store = {
 		departure_date: '',
@@ -62,14 +62,48 @@ const store = {
 		fsAppKey: 'defecb4c87ed09385f30279c56e56a11'
 };
 
-$('.rawResults').on('click', '.remove', function(event){
-	$(this).closest('.flight-result').fadeOut();
-})
-$('.rawResults').on('click', '.book', function(event){
-	$(this).closest('.flight-result').fadeOut();
-})
 
 
+// validate input box 
+$('.origin-airport').keyup(function(event) {
+	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
+	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
+	// $airportDisplay.hide()
+	if (response) {
+		$airportDisplay.html(response.name).hide().fadeIn(700)
+		.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
+	} else {
+		// if its at least 3 letters and not an airport code,
+		($(this).val().length >= 3) ? 
+		$airportDisplay.html(`${$(this).val()} not found`) :
+		$airportDisplay.html('').next('.displayAirportCityState').html('')
+	}
+});
+
+  let msp = {
+    "code": "MSP",
+    "lat": "44.8793",
+    "lon": "-93.1987",
+    "name": "Minneapolis St Paul International Airport",
+    "city": "St. Paul",
+    "state": "Minnesota",
+    "country": "United States",
+    "woeid": "12520966",
+    "tz": "America\/Chicago",
+    "phone": "",
+    "type": "Airports",
+    "email": "",
+    "url": "http:\/\/mspairport.com",
+    "runway_length": "11006",
+    "elev": "841",
+    "icao": "KMSP",
+    "direct_flights": "171",
+    "carriers": "41"
+  }
+
+
+
+// handle flight search
 $('#searchFlights').on('submit', function(event){
 	event.preventDefault();
 	store.prices = []; //empty it out.
@@ -77,13 +111,13 @@ $('#searchFlights').on('submit', function(event){
 	store.departure_date = $(this).find('#departure_date').val();
 	//populate the store.origin array with origin airports
 	$(this).find('.origin-airport').each(function(){
+		if ( airports.find(ap=> ap.code===this.value) ) {
+		console.log('adding origin airport', this.value)
 		store.origins.push(this.value)
+		} // this should validate airports it only checks if blank
 	})
 	store.destination = $(this).find('#destination').val();
 
-	// let origin = $(this).find('#origin1').val();
-	// let origin2 = $(this).find('#origin2').val();
-	// let origin3 = $(this).find('#origin3').val();
 	getTimeZones([...store.origins, store.destination]);
 	createFlightSearchPromises();
 	// handleFlightSearch();
@@ -120,6 +154,8 @@ function createFlightSearchPromises(){
 
 function getTimeZones(arr){
 	console.log('tz arr', arr)
+	// validate list before getting timezones.
+
 	let zones = arr.map(a => airports.find(ap=> ap.code.toLowerCase()===a.toLowerCase()).tz)
 	store.timeZones = zones;
 }

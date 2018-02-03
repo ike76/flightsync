@@ -8,7 +8,8 @@ function log( message ) {
 $( "#city" ).autocomplete({
 	source: function( request, response ) {
 		$.ajax({
-			url: "https://api.sandbox.amadeus.com/v1.2/airports/autocomplete",
+			url: "./lib/js/airports.js",
+			// url: "https://api.sandbox.amadeus.com/v1.2/airports/autocomplete",
 			dataType: "json",
 			data: {
 			apikey: "hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR",
