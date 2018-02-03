@@ -38,17 +38,38 @@ class FlightResultGroup { // several flight options
 	};
 
 	formatItineraryHTML(itin){
+		
 		let html = `
-			<div class="flight-result">
-				<h3 class="price">$${itin.fare}</h3>`;
-
-				itin.outbound.flights.forEach(leg=> {
-					html += `<div class="leg">
-						<p class="maininfo">${leg.marketing_airline} #${leg.flight_number} Departs ${leg.origin.airport} ${moment(leg.departs_at).format("ddd MMM D @ h:mma")} | Arrives ${leg.destination.airport} at ${moment(leg.arrives_at).format("h:mma")}</p>
-					</div>`
-				})
-		html += `<div class='travel-time'>total travel time = ${itin.duration.days()} days ${itin.duration.hours()} hr ${itin.duration.minutes()} min</div>`
-		html += '</div>';
+	<div class="flight-result" style="border-color:  ${this.color};">
+		<div class="top">
+			<div class="left-side">
+				<h3 class="price">$${itin.fare}</h3>
+			</div>
+			<div class="right-side">
+				<div class="legs">`
+		itin.outbound.flights.forEach(leg=>{
+			html += `<div class="leg">
+				<p class="maininfo">
+					<img src="https://images.kiwi.com/airlines/64/${leg.marketing_airline}.png" alt="">
+				${leg.marketing_airline} #${leg.flight_number} ${moment(leg.departs_at).format("ddd MMM D")} | ${leg.origin.airport} ${moment(leg.departs_at).format("h:mma")} <span class="airplane">✈︎</span> ${leg.destination.airport} ${moment(leg.arrives_at).format("h:mma")}
+				</p>
+			</div>`
+		})
+		html += `</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="buttons">
+				<button class="btn remove">remove</button>
+				<button class="btn add">add</button>
+				<button class="btn book">book</button>
+			</div>
+				<div class="travel-time">
+					total travel time = ${(itin.duration.days()) ? `${itin.duration.days()} days` : '' } ${itin.duration.hours()} hr ${itin.duration.minutes()} min
+				</div>
+			
+		</div>
+	</div>`
 		return html;
 	};
 	sortByDuration(arr = this.itineraries){

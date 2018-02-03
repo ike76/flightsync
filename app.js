@@ -47,19 +47,27 @@ const store = {
 		timeBounds: {earliest: moment().add(100, 'years') ,latest: moment().subtract(100, 'years')},
 		filterPoints: {price: 100000, times: [0,10000000000]},
 		prices: ["54.30", "54.30", "60.30", "60.30", "100.30", "115.00", "115.00", "115.00", "119.20", "119.20", "119.20", "120.60", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "129.30", "147.00", "154.30", "154.30", "154.30", "198.00", "203.30", "213.30", "241.39", "249.60", "309.00", "534.30", "905.50", "905.50", "1114.30", "1114.30", "1135.00", "1155.30", "1181.00", "1181.00", "1181.00", "1196.00", "1375.30", "1384.00", "1384.00", "1384.00"],
-		colors: ['rgba(192, 57, 43,1.0)', //red
-		 'rgba(39, 174, 96,1.0)', // green
-		 'rgba(241, 196, 15,1.0)', //yellow
-		 'rgba(41, 128, 185,1.0)', //blue
-		 'rgba(230, 126, 34,1.0)', //orange
-		 'rgba(142, 68, 173,1.0)', //purple
-		 'rgba(44, 62, 80,1.0)'],
+		colors: [
+					'rgba(192, 57, 43, 1)', //red
+					'rgba(39, 174, 96, 1)', // green
+					'rgba(241, 196, 15, 1)', //yellow
+					'rgba(41, 128, 185, 1)', //blue
+					'rgba(230, 126, 34, 1)', //orange
+					'rgba(142, 68, 173, 1)', //purple
+				],
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 
 		timeZoneKey: 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI',
 		fsAppId: '0a175eb8',
 		fsAppKey: 'defecb4c87ed09385f30279c56e56a11'
 };
+
+$('.rawResults').on('click', '.remove', function(event){
+	$(this).closest('.flight-result').fadeOut();
+})
+$('.rawResults').on('click', '.book', function(event){
+	$(this).closest('.flight-result').fadeOut();
+})
 
 
 $('#searchFlights').on('submit', function(event){

@@ -85,11 +85,12 @@ function createChart(datasets){
 }// end function createChart
 
 $('#flightsChart').on('click', function(e){
+
 	let clicked = chart.getElementAtEvent(e);
 	let datasetIndex = clicked[0]._datasetIndex;
 	let dataIndex = clicked[0]._index;
 	let itinObj = chart.data.datasets[datasetIndex].data[dataIndex]
-	console.log(itinObj);
+	console.log('clicked', clicked[0]._model.backgroundColor)
 	$('.rawResults').append(itinObj.html)
 }) // click dots on map
 
