@@ -45,7 +45,7 @@ class FlightResultGroup { // several flight options
 	formatItineraryHTML(itin){
 		
 		let html = `
-	<div class="flight-result" style="border-color:  ${this.color};">
+	<div class="flight-result draggable ui-draggable" style="border-color:  ${this.color};">
 		<div class="top">
 			<div class="left-side">
 				<h3 class="price">$${itin.fare}</h3>

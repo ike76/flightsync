@@ -26,6 +26,8 @@ $( "#arrival-slider" ).slider({
 	values: [10,100],
 });
 
+$('.draggable').draggable()
+
 // prefill search boxes with default values
 document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
 // document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
@@ -110,10 +112,13 @@ $('#searchFlights').on('submit', function(event){
 	store.departure_date = $(this).find('#departure_date').val();
 	//populate the store.origin array with origin airports
 	$(this).find('.origin-airport').each(function(){
-		if ( airports.find(ap=> ap.code===this.value) ) {
-		console.log('adding origin airport', this.value)
-		store.origins.push(this.value)
-		} 
+		let originAirport = this.value.toUpperCase().trim()
+		if ( airports.find(ap=> ap.code===originAirport ) ) {
+		console.log('adding origin airport', originAirport)
+		store.origins.push(originAirport)
+		} else {
+			console.log(`can't find airport called ${originAirport}`)
+		}
 	})
 	store.destination = $(this).find('#destination').val();
 	console.log('destination set to', store.destination)
