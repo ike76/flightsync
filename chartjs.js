@@ -8,7 +8,7 @@ let chart;
 
 function createChart(datasets){
 	 chart = new Chart(ctx, {
-	    type: 'scatter',
+	    type: 'bubble',
 	    pointRadius: 10,
 	    data: {
 	        datasets: datasets,
@@ -127,7 +127,6 @@ function createSliders(){
 	})
 
 	// time bounds slider:
-	// Create a new date from a string, return as a timestamp.
 
 	let landingTimeSlider = document.getElementById('range-slider');
 	noUiSlider.create(landingTimeSlider,{
@@ -161,9 +160,9 @@ function createSliders(){
 			[...city.dataFiltered, ...city.data].forEach(e => {
 
 				if (e.y > cutoffPrice) {filterOut.push(e); } 
-				else if (e.x < moment.unix(timeValues[0])) {filterOut.push(e); } 
-				else if (e.x > moment.unix(timeValues[1])) {filterOut.push(e); } 
-				else if (nonStopOnly && !e.nonStop) {filterOut.push(e);}
+				else if (e.x < moment.unix(timeValues[0])) {filterOut.push(e); console.log('too early', e) } 
+				else if (e.x > moment.unix(timeValues[1])) {filterOut.push(e); console.log('too late', e) } 
+				else if (nonStopOnly && !e.nonStop) {filterOut.push(e); console.log('nonstops only', e) }
 				else keep.push(e)
 			})
 			city.data = keep;
@@ -174,7 +173,7 @@ function createSliders(){
 	
 }
 
-// handle chosen flights button clicks
+// handle chosen flights button clicks (delete, add?, book?)
 $('.rawResults').on('click', '.remove', function(event){
 	$(this).closest('.flight-result').fadeOut();
 })

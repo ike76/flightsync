@@ -65,16 +65,15 @@ const store = {
 
 
 // validate input box 
-$('.origin-airport').keyup(function(event) {
+$('.airport-code').keyup(function(event) {
 	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
 	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
-	// $airportDisplay.hide()
 	if (response) {
 		$airportDisplay.html(response.name).hide().fadeIn(700)
 		.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
 	} else {
 		// if its at least 3 letters and not an airport code,
-		($(this).val().length >= 3) ? 
+		($(this).val().trim().length >= 3) ? 
 		$airportDisplay.html(`${$(this).val()} not found`) :
 		$airportDisplay.html('').next('.displayAirportCityState').html('')
 	}
@@ -114,9 +113,10 @@ $('#searchFlights').on('submit', function(event){
 		if ( airports.find(ap=> ap.code===this.value) ) {
 		console.log('adding origin airport', this.value)
 		store.origins.push(this.value)
-		} // this should validate airports it only checks if blank
+		} 
 	})
 	store.destination = $(this).find('#destination').val();
+	console.log('destination set to', store.destination)
 
 	getTimeZones([...store.origins, store.destination]);
 	createFlightSearchPromises();
@@ -153,8 +153,6 @@ function createFlightSearchPromises(){
 
 
 function getTimeZones(arr){
-	console.log('tz arr', arr)
-	// validate list before getting timezones.
 
 	let zones = arr.map(a => airports.find(ap=> ap.code.toLowerCase()===a.toLowerCase()).tz)
 	store.timeZones = zones;

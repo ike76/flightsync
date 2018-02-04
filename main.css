@@ -6,6 +6,10 @@ div.sliders{
 	/*width: 400px;*/
 	/*position: absolute;*/
 }
+fieldset{
+	border: 1px solid #f0f0f0;
+	min-width: 500px;
+}
 
 .searchForm{
 	display: flex;

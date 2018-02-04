@@ -8,7 +8,7 @@ class FlightResultGroup { // several flight options
 		this.origZone = origZone;
 		this.destZone = destZone;
 		this.color = color;
-		this.prices = this.doPriceRange();
+		this.prices = this.addPricesToStore();
 		this.times = this.doTravelTimes();
 	};
 	
@@ -77,12 +77,12 @@ class FlightResultGroup { // several flight options
 	</div>`
 		return html;
 	};
-	sortByDuration(arr = this.itineraries){
-		return arr.sort((each, others)=>{return each.minutes - others.minutes;});
-	}
-	sortByPrice(arr = this.itineraries){
-		return arr.sort((each, others)=>{return each.fare - others.fare})
-	}
+	// sortByDuration(arr = this.itineraries){
+	// 	return arr.sort((each, others)=>{return each.minutes - others.minutes;});
+	// }
+	// sortByPrice(arr = this.itineraries){
+	// 	return arr.sort((each, others)=>{return each.fare - others.fare})
+	// }
 	sortByArrivalTimeDelta(targetTime = moment('2018-02-03T13:50'), arr = this.itineraries){
 		return arr.sort((each, others)=>{
 			let eachDelta = each.arrTimeLocal.diff(targetTime, 'minutes');
@@ -90,21 +90,17 @@ class FlightResultGroup { // several flight options
 			return Math.abs(eachDelta) - Math.abs(otherDelta);
 		});
 	}
-	doPriceRange(){
+	addPricesToStore(){
 		let pricesArr = this.itineraries.map(itin=>{
 			return itin.fare
 		});
-		pricesArr.sort((p,e) =>  p-e);
-		let all = pricesArr;
-		let low = pricesArr[0]
-		let high = pricesArr[pricesArr.length -1]
-		let med = pricesArr[Math.floor(pricesArr.length/2)]
-		store.prices.push(...all)
+		// pricesArr.sort((p,e) =>  p-e);
+		// let all = pricesArr;
+		// let low = pricesArr[0]
+		// let high = pricesArr[pricesArr.length -1]
+		// let med = pricesArr[Math.floor(pricesArr.length/2)]
+		store.prices.push(...pricesArr)
 		store.prices.sort((p,o) => p-o )
-		return {
-			all, low, high, med
-		}
-
 	};
 	doTravelTimes(){
 		let timesArr = this.itineraries.map(itin=>{
@@ -176,6 +172,7 @@ class FlightResultGroup { // several flight options
 			return itin.arrTimeLocal
 		})
 
+		timeset.sort((t,o) => t-o)
 
 		// set the earliest and latest of all itineraries
 
