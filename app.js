@@ -6,12 +6,7 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
 
 
-//make display flights sortable
-$('.sortable').sortable({
-	helper: "clone",
-	opacity: 0.7,
-	placeholder: "sortable-placeholder",
-});
+
 
 // prefill search boxes with default values
 document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
@@ -39,10 +34,10 @@ const store = {
 		colors: [
 					'rgba(192, 57, 43, 1)', //red
 					'rgba(39, 174, 96, 1)', // green
-					'rgba(41, 128, 185, 1)', //blue
 					'rgba(230, 126, 34, 1)', //orange
-					'rgba(142, 68, 173, 1)', //purple
+					'rgba(41, 128, 185, 1)', //blue
 					'rgba(241, 196, 15, 1)', //yellow
+					'rgba(142, 68, 173, 1)', //purple
 				],
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 
@@ -144,21 +139,10 @@ function createFlightSearchPromises(){
 		})
 		createChart(store.chartDatasets)
 		createSliders()
+		createMap()
 	})
 
 }
-
-
-function getTimeZones(arr){
-
-	let zones = arr.map(a => airports.find(ap=> ap.code.toLowerCase()===a.toLowerCase()).tz)
-	store.timeZones = zones;
-}
-
-
-let result;  // global FlightResultGroup
-
-
 
 function handleFlightSearch(origin, resolve){
 	let endpoint = `https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search`;
@@ -176,12 +160,26 @@ function handleFlightSearch(origin, resolve){
 	.fail(err => console.log(`there was an error:`, err));
 }
 
+function getTimeZones(arr){
+
+	let zones = arr.map(a => airports.find(ap=> ap.code.toLowerCase()===a.toLowerCase()).tz)
+	store.timeZones = zones;
+}
+
+
+
 function handleFlightResponse (json, textStatus){
 	result = new FlightResultGroup(json, store.zones);
 	result.displayAllItineraries();
 	result.chartAllItineraries();
 }
 
+//make display flights sortable
+$('.sortable').sortable({
+	helper: "clone",
+	opacity: 0.7,
+	placeholder: "sortable-placeholder",
+});
 
 
 
