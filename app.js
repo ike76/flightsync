@@ -1,4 +1,5 @@
-const apikey = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
+const apikey2 = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
+const apikey = 'wsQelFUbdVt9Gc3QdPxRe6fG6qk3BnvN'
 const googApiKey = 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk';
 const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
 const fsAppId = '0a175eb8';
@@ -12,7 +13,7 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
 // document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
 $('#origin1').val('MSP');
-$('#origin2').val('DFW');
+// $('#origin2').val('DFW');
 $('#origin3').val('LAX');
 
 $('#destination').val('MCO');
@@ -39,7 +40,7 @@ const store = {
 					'rgba(241, 196, 15, 1)', //yellow
 					'rgba(142, 68, 173, 1)', //purple
 				],
-		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
+		apikey: 'aTchnxKGSLarpLQHOmh8FpuCRHAMOtAr',
 		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 
 		timeZoneKey: 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI',
 		fsAppId: '0a175eb8',
@@ -53,7 +54,6 @@ $('.airport-code').keyup(function(event) {
 	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
 	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
 	if (response) {
-
 		$airportDisplay.html(response.name).hide().fadeIn(700)
 		.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
 	} else {
@@ -111,7 +111,13 @@ $('#searchFlights').on('submit', function(event){
 	store.destinationLatLng = {airport: store.destination, lat: Number(lat), lng: Number(lng)}
 }
 	getTimeZones([...store.origins, store.destination]);
-	createFlightSearchPromises();
+	let resultsObjectsLocal = JSON.parse(localStorage.getItem('resultsObjects'))
+
+		createFlightSearchPromises();
+	
+	// console.log('results objects from file', resultsObjectsFromFile)
+	// createFake
+
 	// handleFlightSearch();
 })
 
@@ -133,16 +139,25 @@ function createFlightSearchPromises(){
 		store.resultsObjects = flightPlansArr.map((each, i)=> {
 			return new FlightResultGroup(each, store.timeZones[i], store.timeZones[store.timeZones.length -1], store.origins[i], store.destination, store.colors[i])
 		})
-	}).then((data)=>{
-		store.resultsObjects.forEach(result=>{
-			result.createDataSets();;
-		})
-		createChart(store.chartDatasets)
-		createSliders()
-		createMap()
+	}).then(()=>{
+		console.log('store obj', store.resultsObjects)
+		localStorage.setItem('resultsObjects', JSON.stringify(store.resultsObjects));
+		handleResultsObjects();
+
 	})
 
 }
+
+function handleResultsObjects(){
+	console.log('store results objects', store.resultsObjects)
+	store.resultsObjects.forEach(result=>{
+		result.createDataSets();;
+	})
+	createChart(store.chartDatasets)
+	createSliders()
+	createMap()
+}
+
 
 function handleFlightSearch(origin, resolve){
 	let endpoint = `https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search`;
@@ -152,7 +167,7 @@ function handleFlightSearch(origin, resolve){
 		origin,
 		destination: store.destination, 
 		number_of_results: 15, 
-		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
+		apikey: store.apikey,
 	}).done(function(data){
 			console.log('data from handleFlightSearch',data);
 			resolve(data);
