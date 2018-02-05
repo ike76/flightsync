@@ -6,27 +6,12 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
 
 
-$( "#price-slider" ).slider({
-	classes: {
-		"ui-slider": "highlight",
-	},
-	range: 'min',
-	min: 10,
-	max: 100,
-	value: 100,
+//make display flights sortable
+$('.sortable').sortable({
+	helper: "clone",
+	opacity: 0.7,
+	placeholder: "sortable-placeholder",
 });
-$( "#arrival-slider" ).slider({
-	classes: {
-		"ui-slider": "highlight",
-
-	},
-	range: true,
-	min: 10,
-	max: 100,
-	values: [10,100],
-});
-
-$('.draggable').draggable()
 
 // prefill search boxes with default values
 document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
@@ -35,12 +20,14 @@ $('#origin1').val('MSP');
 $('#origin2').val('DFW');
 $('#origin3').val('LAX');
 
-$('#destination').val('LGW');
+$('#destination').val('MCO');
 
 const store = {
 		departure_date: '',
 		// origin: '',  
 		origins: [],
+		originsLatLng: [], // [{airport: 'MSP', lat: 44.8793  ,lng: -93.1987 }],
+		destinationLatLng: { },// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
 		destination: '',
 		resultsObjects: [],
 		timeZones: [],
@@ -71,6 +58,7 @@ $('.airport-code').keyup(function(event) {
 	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
 	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
 	if (response) {
+
 		$airportDisplay.html(response.name).hide().fadeIn(700)
 		.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
 	} else {
@@ -114,15 +102,19 @@ $('#searchFlights').on('submit', function(event){
 	$(this).find('.origin-airport').each(function(){
 		let originAirport = this.value.toUpperCase().trim()
 		if ( airports.find(ap=> ap.code===originAirport ) ) {
-		console.log('adding origin airport', originAirport)
+		let {lat, lon:lng} = airports.find(ap=> ap.code===originAirport )
 		store.origins.push(originAirport)
+		store.originsLatLng.push({airport: originAirport , lat: Number(lat), lng: Number(lng) })
 		} else {
 			console.log(`can't find airport called ${originAirport}`)
 		}
 	})
-	store.destination = $(this).find('#destination').val();
-	console.log('destination set to', store.destination)
 
+{	store.destination = $(this).find('#destination').val().trim().toUpperCase();
+	let {lat, lon:lng} = airports.find(ap=> ap.code===store.destination )
+	console.log('destination set to', store.destination)
+	store.destinationLatLng = {airport: store.destination, lat: Number(lat), lng: Number(lng)}
+}
 	getTimeZones([...store.origins, store.destination]);
 	createFlightSearchPromises();
 	// handleFlightSearch();

@@ -1,6 +1,13 @@
 .airport{
 	font-weight: bold;
 }
+input.airport-code{
+	width: 4em;
+}
+#mymap{
+	height: 400px;
+	width: 400px;
+}
 
 div.sliders{
 	/*width: 400px;*/
@@ -11,6 +18,12 @@ fieldset{
 	min-width: 500px;
 }
 
+ul{
+	list-style: none;
+}
+.sortable-placeholder{
+	height: 100px;
+}
 .searchForm{
 	display: flex;
 	width: 100%;

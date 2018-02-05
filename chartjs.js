@@ -90,6 +90,7 @@ $('#flightsChart').on('click', function(e){
 		let dataIndex = clicked._index;
 		let itinObj = chart.data.datasets[datasetIndex].data[dataIndex]
 		$('.rawResults').append(itinObj.html)
+		// $( ".sortable" ).sortable( "option", "handle", ".handle" );
 	}
 	
 
@@ -162,11 +163,10 @@ function createSliders(){
 			let keep = [];
 			let filterOut = [];
 			[...city.dataFiltered, ...city.data].forEach(e => {
-
 				if (e.y > cutoffPrice) {filterOut.push(e); } 
-				else if (e.x < moment.unix(timeValues[0])) {filterOut.push(e); console.log('too early', e) } 
-				else if (e.x > moment.unix(timeValues[1])) {filterOut.push(e); console.log('too late', e) } 
-				else if (nonStopOnly && !e.nonStop) {filterOut.push(e); console.log('nonstops only', e) }
+				else if (e.x < moment.unix(timeValues[0])) {filterOut.push(e); } // if its too early
+				else if (e.x > moment.unix(timeValues[1])) {filterOut.push(e); } // if its too late
+				else if (nonStopOnly && !e.nonStop) {filterOut.push(e); } // if its not nonStop 
 				else keep.push(e)
 			})
 			city.data = keep;

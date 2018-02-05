@@ -45,6 +45,7 @@ class FlightResultGroup { // several flight options
 	formatItineraryHTML(itin){
 		
 		let html = `
+		<li>
 	<div class="flight-result draggable ui-draggable" style="border-color:  ${this.color};">
 		<div class="top">
 			<div class="left-side">
@@ -67,14 +68,15 @@ class FlightResultGroup { // several flight options
 			<div class="buttons">
 				<button class="btn remove">remove</button>
 				<button class="btn add">add</button>
-				<button class="btn book">book</button>
+				<button class="btn book handle">drag to sort ^</button>
 			</div>
 				<div class="travel-time">
 					total travel time = ${(itin.duration.days()) ? `${itin.duration.days()} days` : '' } ${itin.duration.hours()} hr ${itin.duration.minutes()} min
 				</div>
 			
 		</div>
-	</div>`
+	</div>
+	</li>`
 		return html;
 	};
 	// sortByDuration(arr = this.itineraries){
