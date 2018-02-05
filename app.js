@@ -39,10 +39,10 @@ const store = {
 		colors: [
 					'rgba(192, 57, 43, 1)', //red
 					'rgba(39, 174, 96, 1)', // green
-					'rgba(241, 196, 15, 1)', //yellow
 					'rgba(41, 128, 185, 1)', //blue
 					'rgba(230, 126, 34, 1)', //orange
 					'rgba(142, 68, 173, 1)', //purple
+					'rgba(241, 196, 15, 1)', //yellow
 				],
 		apikey: 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR',
 		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 

@@ -95,6 +95,55 @@
 				
 			</div>
 		</div>
+	 	<div class="chart-sliders-container">
+			<div id="chartContainer">
+				<canvas id="flightsChart"> </canvas>
+			</div>
+			<div class="sliders filters">
+				<div id="max-slider">
+				</div>
+				<div id="max-price-display" class="horiz-slider">
+						Max Price: <span></span>
+				</div> 
+
+				<div id="range-slider"></div>
+				<div id="time-range-display"  class="horiz-slider">Showing flights landing between <span class="earliest">4pm</span> and <span class="latest">11pm</span></div>
+				
+				<form action="./">
+					<label for="nonStopCheckBox">Nonstop Flights Only</label>
+					<input type="checkbox" id="nonStopCheckBox" name="checkBox">
+				</form>
+			</div>
+		<div>
+			<ul class="rawResults sortable">
+				<!-- <div class="flight-result">
+					<h3 class="price">$56.30</h3>
+					<div class="leg">
+						<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
+					</div>
+					<div class="leg">
+						<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
+						<p class="otherinfo">connects in DFW | travel time 3:23</p>
+					</div>
+				</div> -->
+			</ul>
+		</div>
+	 		
+		</div>
+		
+	</div> <!-- end row -->
+
+	<div class="row results">
+		<!-- <div>
+			<ul>
+				<li>AS#1312 | AS#245  LAX -> MCO  <span class="price">$178.30</span> </li>
+				<li>AS#1312 | AS#245  LAX -> MCO  <span class="price">$178.30</span> </li>
+				<li>AS#1312 | AS#245  LAX -> MCO  <span class="price">$178.30</span> </li>
+				<li><hr></li>
+				<li>total: $1329.32</li>
+			</ul>
+			
+		</div> -->
 	</div>
 	<!-- <div class="buttons">
 		<button id="sort-by-Price">PRICE</button> 
@@ -103,41 +152,8 @@
 		<button id="sort-by-delta">Time Difference</button>
 	</div>
  -->
- 	<div class="chart-sliders-container">
-		<div id="chartContainer">
-			<canvas id="flightsChart"> </canvas>
-		</div>
-		<div class="sliders filters">
-			<div id="max-slider">
-			</div>
-			<div id="max-price-display" class="horiz-slider">
-					Max Price: <span></span>
-			</div> 
 
-			<div id="range-slider"></div>
-			<div id="time-range-display"  class="horiz-slider">Showing flights landing between <span class="earliest">4pm</span> and <span class="latest">11pm</span></div>
-			
-			<form action="./">
-				<label for="nonStopCheckBox">Nonstop Flights Only</label>
-				<input type="checkbox" id="nonStopCheckBox" name="checkBox">
-			</form>
-		</div>
- 		
-	</div>
 	
-
-	<ul class="rawResults sortable">
-		<!-- <div class="flight-result">
-			<h3 class="price">$56.30</h3>
-			<div class="leg">
-				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
-			</div>
-			<div class="leg">
-				<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
-				<p class="otherinfo">connects in DFW | travel time 3:23</p>
-			</div>
-		</div> -->
-	</ul>
 
 
 </main>
