@@ -8,7 +8,6 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
 
 
-
 // prefill search boxes with default values
 document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
 // document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
@@ -48,21 +47,89 @@ const store = {
 };
 
 
+$('#answerQuery').keyup(function(event){
+	// validate airport
+	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
+
+	//check if it is destination or origin
+
+	// put it in the store
+
+})
+
 
 // validate input box 
 $('.airport-code').keyup(function(event) {
 	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
 	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
-	if (response) {
+	if (response){ // if you have a valid airport
+
+		store.originsLatLng = []; // redo the array each time a valid airport is found, otherwise leave it
+		$(this).closest('fieldset').find('.origin-airport').each(function(index, el) {
+			let val = el.value
+			if (val){
+				let dbResponse = airports.find(a=> a.code === val.toUpperCase().trim() ) || '';
+				if (dbResponse) store.originsLatLng.push({airport: dbResponse.code, city: dbResponse.city, lat: dbResponse.lat, lng: dbResponse.lon})
+			}
+		});
+		let dest = $(this).closest('fieldset').find('#destination').val()
+				let dbResponse = airports.find(a=> a.code === dest.toUpperCase().trim() ) || '';
+				store.destinationLatLng = {airport: dbResponse.code, lat: dbResponse.lat, lng: dbResponse.lon, city: dbResponse.city}
 		$airportDisplay.html(response.name).hide().fadeIn(700)
-		.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
-	} else {
-		// if its at least 3 letters and not an airport code,
-		($(this).val().trim().length >= 3) ? 
-		$airportDisplay.html(`${$(this).val()} not found`) :
-		$airportDisplay.html('').next('.displayAirportCityState').html('')
-	}
+			.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
+		} else {
+			// if its at least 3 letters and not an airport code,
+			if ($(this).val().trim().length >= 3) {
+			console.log('no response from airport db', $(this).val().length)
+			$airportDisplay.html(`${$(this).val()} not found`)
+			$airportDisplay.html('').next('.displayAirportCityState').html('') 
+			} 
+			else {
+			 	$airportDisplay.html('')
+			 	$airportDisplay.html('').next('.displayAirportCityState').html('') 
+			}
+		}
+	
+	
+
+	// if (response) { // if this aiport was found
+	// 	if($(this).hasClass('origin-airport')){  // if it is an origin airport
+	// 		if (store.originsLatLng.filter(e=> e.airport === response.code).length < 1) // if its not already there
+	// 			{store.originsLatLng.push({airport: response.code, lat: response.lat, lng: response.lon})}
+	// 	} else { // else it is the destination
+	// 		store.destinationLatLng = {airport: response.code, lat: response.lat, lng: response.lon}
+
+	// 	}
+
+	// 	console.log('response', response)
+	// 	// add this to the store
+	// 	console.log('this', this.className)
+
+	// 	addMarkerToMap({airport: response.code, lat: response.lat , lng: response.lon })
+
+	// 	$airportDisplay.html(response.name).hide().fadeIn(700)
+	// 	.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
 });
+
+// $('.airport-code').keyup(function(event) {
+// 	let response = ''
+// 	if ($(this).val().trim().length >= 3){  // don't do anything until there are at least 3 characters
+// 		response = airports.find( a=> a.code === $(this).val().toUpperCase().trim() ) || 
+// 			airports.filter( a=> a.city.toLowerCase().includes($(this).val().toLowerCase().trim()) )[0];
+// 	}
+
+// 	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
+// 	if (response) {
+// 		$airportDisplay.html(response.name).hide().fadeIn(400)
+// 		.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(800);
+// 	} 
+// 	else {
+// 		// if its at least 3 letters and not an airport code,
+
+// 		$airportDisplay.html(`${$(this).val()} not found`)
+// 		$airportDisplay.html('').next('.displayAirportCityState').html('');
+// 	}
+// });
 
   let msp = {
     "code": "MSP",
@@ -84,6 +151,8 @@ $('.airport-code').keyup(function(event) {
     "direct_flights": "171",
     "carriers": "41"
   }
+
+
 
 
 

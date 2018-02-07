@@ -1,0 +1,37 @@
+*{
+	box-sizing: border-box;
+	/*border: 1px lightgreen dotted;*/
+}
+main {
+	width: 100%;
+}
+.relative{
+	position: relative;
+}
+.absolute{
+	position: absolute;
+}
+.container{
+	display: flex;
+	margin: 10px auto;
+	max-width: 1000px;
+}
+.row{
+	display: flex;
+}
+.center-even{
+	justify-content: space-around;
+	align-items: center;
+}
+.col-10{
+	width: 10%;
+}
+.col-25{
+	width: 25%;
+}
+.col-50{
+	width: 50%;
+}
+.col-75{
+	width: 75%;
+}
