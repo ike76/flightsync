@@ -9,13 +9,13 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
 
 // prefill search boxes with default values
-document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
+// document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
 // document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
-$('#origin1').val('MSP');
+// $('#origin1').val('MSP');
 // $('#origin2').val('DFW');
-$('#origin3').val('LAX');
+// $('#origin3').val('LAX');
 
-$('#destination').val('MCO');
+// $('#destination').val('MCO');
 
 const store = {
 		departure_date: '',
@@ -24,6 +24,7 @@ const store = {
 		originsLatLng: [], // [{airport: 'MSP', lat: 44.8793  ,lng: -93.1987 }],
 		destinationLatLng: { },// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
 		destination: '',
+		polylines: [],
 		resultsObjects: [],
 		timeZones: [],
 		chartDatasets: [],
@@ -39,56 +40,122 @@ const store = {
 					'rgba(241, 196, 15, 1)', //yellow
 					'rgba(142, 68, 173, 1)', //purple
 				],
-		apikey: 'aTchnxKGSLarpLQHOmh8FpuCRHAMOtAr',
-		googApiKey: 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk', 
-		timeZoneKey: 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI',
-		fsAppId: '0a175eb8',
-		fsAppKey: 'defecb4c87ed09385f30279c56e56a11'
+		apikey: config.apikey,
+		googApiKey: config.googApiKey, 
+		timeZoneKey: config.timeZoneKey,
+		fsAppId: config.fsAppId,
+		fsAppKey: config.fsAppKey,
 };
 
+function validateAirportCode(textbox){
+	let response = airports.find(a=> a.code === textbox.val().toUpperCase().trim() ) || '';
+	return response;
+}
 
 $('#answerQuery').keyup(function(event){
 	// validate airport
-	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
-
-	//check if it is destination or origin
-
-	// put it in the store
-
-})
-
-
-// validate input box 
-$('.airport-code').keyup(function(event) {
-	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
-	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
+	let response = validateAirportCode($(this))
+	let $airportDisplay = $('.display-airport')
 	if (response){ // if you have a valid airport
-
-		store.originsLatLng = []; // redo the array each time a valid airport is found, otherwise leave it
-		$(this).closest('fieldset').find('.origin-airport').each(function(index, el) {
-			let val = el.value
-			if (val){
-				let dbResponse = airports.find(a=> a.code === val.toUpperCase().trim() ) || '';
-				if (dbResponse) store.originsLatLng.push({airport: dbResponse.code, city: dbResponse.city, lat: dbResponse.lat, lng: dbResponse.lon})
-			}
-		});
-		let dest = $(this).closest('fieldset').find('#destination').val()
-				let dbResponse = airports.find(a=> a.code === dest.toUpperCase().trim() ) || '';
-				store.destinationLatLng = {airport: dbResponse.code, lat: dbResponse.lat, lng: dbResponse.lon, city: dbResponse.city}
-		$airportDisplay.html(response.name).hide().fadeIn(700)
-			.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
+		console.log('response', response);
+		$airportDisplay.hide().html(displayAirport(response)).fadeIn();
+		$('.btn.next').prop('disabled', false)
+		handleAirportInput(response);
 		} else {
+			$('.btn.next').prop('disabled', true)
 			// if its at least 3 letters and not an airport code,
 			if ($(this).val().trim().length >= 3) {
-			console.log('no response from airport db', $(this).val().length)
 			$airportDisplay.html(`${$(this).val()} not found`)
-			$airportDisplay.html('').next('.displayAirportCityState').html('') 
+			console.log('no response from airport db', $(this).val().length)
 			} 
 			else {
-			 	$airportDisplay.html('')
-			 	$airportDisplay.html('').next('.displayAirportCityState').html('') 
+		 	$airportDisplay.html('')
 			}
 		}
+})
+
+$('#departure_date').change(function(event){
+	let date = $(this).val();
+	let valid = (moment(date).isValid() && moment(date) > moment().subtract(1,'days') && moment(date) < moment().add(1,'years'));
+	console.log('is it valid?', valid);
+	if (valid) {
+		$('.btn.next').prop('disabled', false);
+		store.departure_date = moment(date)
+	} else {
+		$('.btn.next').prop('disabled', true);
+
+	}
+})
+
+$('.originAirportInputs input').keyup(function(event){
+	let response = validateAirportCode($(this))
+	if (response){
+		$(this).attr('airport', response.code)
+		$(this).val(response.code.toUpperCase())
+		$(this).prop('disabled', true)
+		 handleAirportInput(response)
+	}
+})
+$('.leftSide').on('click', '.x-out', function(event){
+	let airport = $(this).closest('.flight-search-block').attr('originairport')
+	let goner = store.originsLatLng.find((ap)=> ap.airport === airport)
+	remove(store.originsLatLng, goner);
+	displayOriginAirports();
+	let thisInput = $(`.originAirportInputs [airport=${airport}]`)
+	thisInput.prop('disabled', false)
+	thisInput.val('')
+	thisInput.focus();
+
+	console.log('thisInput', thisInput)
+})
+
+function remove(array, element) {
+    const index = array.indexOf(element);
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+}
+
+function displayAirport(response){
+	let html = `
+	<h1><i class="fas fa-arrow-circle-right"></i><span class="">${response.code}</span></h1>
+	<h2>${response.name}</h2>
+	<h2>${response.city}, ${response.state || response.country}</h2>
+	`
+	return html;
+}
+
+// validate input box 
+// $('.airport-code').keyup(function(event) {
+// 	let response = airports.find(a=> a.code === $(this).val().toUpperCase().trim() ) || '';
+// 	let $airportDisplay = $(this).closest('.searchBox').find('.displayAirportName')
+// 	if (response){ // if you have a valid airport
+
+// 		store.originsLatLng = []; // redo the array each time a valid airport is found, otherwise leave it
+// 		$(this).closest('fieldset').find('.origin-airport').each(function(index, el) {
+// 			let val = el.value
+// 			if (val){
+// 				let dbResponse = airports.find(a=> a.code === val.toUpperCase().trim() ) || '';
+// 				if (dbResponse) store.originsLatLng.push({airport: dbResponse.code, city: dbResponse.city, lat: dbResponse.lat, lng: dbResponse.lon})
+// 			}
+// 		});
+// 		let dest = $(this).closest('fieldset').find('#destination').val()
+// 				let dbResponse = airports.find(a=> a.code === dest.toUpperCase().trim() ) || '';
+// 				store.destinationLatLng = {airport: dbResponse.code, lat: dbResponse.lat, lng: dbResponse.lon, city: dbResponse.city}
+// 		$airportDisplay.html(response.name).hide().fadeIn(700)
+// 			.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
+// 		} else {
+// 			// if its at least 3 letters and not an airport code,
+// 			if ($(this).val().trim().length >= 3) {
+// 			console.log('no response from airport db', $(this).val().length)
+// 			$airportDisplay.html(`${$(this).val()} not found`)
+// 			$airportDisplay.html('').next('.displayAirportCityState').html('') 
+// 			} 
+// 			else {
+// 			 	$airportDisplay.html('')
+// 			 	$airportDisplay.html('').next('.displayAirportCityState').html('') 
+// 			}
+// 		}
 	
 	
 
@@ -109,7 +176,7 @@ $('.airport-code').keyup(function(event) {
 
 	// 	$airportDisplay.html(response.name).hide().fadeIn(700)
 	// 	.next('.displayAirportCityState').hide().html(`${response.city}, ${response.state}`).fadeIn(1100);
-});
+// });
 
 // $('.airport-code').keyup(function(event) {
 // 	let response = ''
@@ -224,7 +291,7 @@ function handleResultsObjects(){
 	})
 	createChart(store.chartDatasets)
 	createSliders()
-	createMap()
+	// createMap()
 }
 
 

@@ -16,42 +16,94 @@
 </head>
 <body>
 <div class="container">
-<main>
-
-		<div class="row centered">
-		</div>
-
-		<div class="row relative">
 			<div class="intro-block">
-				<div class="introtext">
-					<h1 class="underline">FlightSync</h1>
-					<h2>flights from multiple origin airports</h2>
-					<h2>arriving at the SAME airport</h2>
-					<h2>at the SAME time</h2>
+				<div class="leftSide">
+					<div class="flight-search-block" originAirport="MSP">
+						<div class="x-out">
+							<a href="#"><i class="far fa-times-circle"></i></a>
+						</div>
+						<div>
+							<h1 ><span class="red">MSP</span><i class="fas fa-arrow-circle-right"></i><span class="">MCO</span></h1>
+							<p class="cities"><span class="city">ST. PAUL</span> to <span class="city">ORLANDO</span></p>
+						</div>
+					</div>
+					<div class="flight-search-block" originAirport="MSP">
+						<div class="x-out">
+							<a href="#"><i class="far fa-times-circle"></i></a>
+						</div>
+						<div>
+							<h1 ><span style="color: rgba(192, 57, 43, 1);">MSP</span><i class="fas fa-arrow-circle-right"></i><span class="">MCO</span></h1>
+							<p class="cities"><span class="city">ST. PAUL</span> to <span class="city">ORLANDO</span></p>
+						</div>
+					</div>
+					<div class="flight-search-block" originAirport="MSP">
+						<div class="x-out">
+							<a href="#"><i class="far fa-times-circle"></i></a>
+						</div>
+						<div>
+							<h1 ><span class="orange">MSP</span><i class="fas fa-arrow-circle-right"></i><span class="">MCO</span></h1>
+							<p class="cities"><span class="city">ST. PAUL</span> to <span class="city">ORLANDO</span></p>
+						</div>
+					</div>
+					<div class="flight-search-block" originAirport="MSP">
+						<div class="x-out">
+							<a href="#"><i class="far fa-times-circle"></i></a>
+						</div>
+						<div>
+							<h1 ><span class="green">MSP</span><i class="fas fa-arrow-circle-right"></i><span class="">MCO</span></h1>
+							<p class="cities"><span class="city">ST. PAUL</span> to <span class="city">ORLANDO</span></p>
+						</div>
+					</div>
+					
 				</div>
 				<div class="searchSide">
+					
 					<div class="instructions">
-						<div class="row center-even">
-							<button type="button" class="btn prev">⬅︎  Prev</button>
-							<div>
+
+<!-- 						<div class="row center-even">
 								<h1>Step 1:</h1>
-								<h2 class="step-directions">Where to?</h2>
-							</div>
-							<button type="button" class="btn next">Next  ➡︎</button>
 						</div>
 						<div class="row center-even">
-							<p>please enter a destination airport code:</p>
-						</div>
-						<div class="row center-even">
+							<h2>please enter a destination airport code:</h2>
+						</div> -->
+					</div>
+						<div class="row center-even margin15">
+							<button type="button" class="btn prev" style="visibility: hidden;">⬅︎  Prev</button>
 							<input type="text" id="answerQuery">
+							<div class="originAirportInputs" hidden >
+								<input type="text" >
+								<input type="text" >
+								<input type="text" >
+								<input type="text" >
+							</div>
+							<input type="date" id="departure_date" hidden>
+							<button type="button" class="btn next" disabled="">Next  ➡︎</button>
+							
 						</div>
 						<div class="display-airport">
-							<h1><i class="fas fa-arrow-circle-right"></i>MCO</h1>
+							<!-- <h1><i class="fas fa-arrow-circle-right"></i><span class="">MCO</span></h1>
 							<h2>Orlando International Airport</h2>
-							<h2>Orlando, FL</h2>
+							<h2>Orlando, FL</h2> -->
 						</div>
 						
+				</div>
+				<div class="rightSide">
+					<div class="slogan">
+						<h1 class="underline">FlightSync</h1>
+						<h2>Synchronize flight plans</h2>
+						<h2>from multiple origin airports</h2>
+						<h2>arriving at the SAME airport</h2>
 					</div>
+				</div>
+			</div>
+
+
+
+
+</div> <!-- end container -->
+<main>
+
+
 <!-- 					
 					<div class="display-input-results">
 						<div class="leftside">
@@ -88,7 +140,7 @@
 								</div>		
 						</div>
 					</div> -->
-					<div class="searchForm">
+<!-- 					<div class="searchForm">
 					<form action="#" id="searchFlights">
 					<fieldset>
 						<div class="searchBox">
@@ -166,7 +218,7 @@
 
 
 				</form>
-					</div>
+					</div> -->
 
 				</div>
 				
@@ -327,6 +379,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script>
 <script src="./lib/js/wNumb.js"></script> 
 <script src="./lib/js/nouislider.min.js"></script>
+<script src="config.js"></script>
 <script src="autocompletemine.js"></script>
 <script src="resultsObjects.js"></script>
 <script src="searchboxes.js"></script>

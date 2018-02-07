@@ -12,7 +12,10 @@ main {
 	position: absolute;
 }
 .container{
+	top: 80px;
+	position: relative;
 	display: flex;
+	justify-content: center;
 	margin: 10px auto;
 	max-width: 1000px;
 }
@@ -34,4 +37,7 @@ main {
 }
 .col-75{
 	width: 75%;
+}
+.margin15{
+	margin: 15px 0;
 }

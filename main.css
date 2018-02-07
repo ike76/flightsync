@@ -18,11 +18,18 @@ h1{
 }
 h2{
 	font-family: 'Tenor Sans', sans-serif;
+	font-size: 18px;
 	margin: 0;
 }
-#answerQuery{
+#answerQuery, #departure_date, .originAirportInputs input{
 	    height: 30px;
     font-size: 20px;
+}
+.originAirportInputs input{
+	margin-bottom: 5px;
+}
+.originAirportInputs input:disabled{
+	background-color: lightgrey;
 }
 .display-airport{
 	margin-top: 20px;
@@ -42,19 +49,35 @@ h2{
 .display-input-results a{
 	color: red;
 }
-.leftside{
-	width: 75%;
-	float: left;
+
+.leftSide{
+	width: 275px;
+}
+.rightSide{
+	width: 275px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
 	align-items: center;
+	justify-content: center;
+	/*font-size: 25px;*/
 }
-.rightside{
-
+.flight-search-block{
+	margin-top: 10px;
 	display: flex;
 	align-items: center;
-	font-size: 25px;
+}
+.x-out{
+	margin-right: 5px;
+	font-size: 20px;
+}
+.fa-arrow-circle-right{
+	margin: 0 3px;
+}
+.cities{
+	margin: 0;
+	font-family: 'Cantarell', sans-serif;
+	font-size: 12px;
+	
 }
 .city{
 	font-weight: bold;
@@ -67,11 +90,11 @@ h2{
 	font-size: 12px;
 }
 .intro-block{
-	position: absolute;
-	top: 15%;
+	/*position: absolute;*/
+	/*top: 50px;*/
 	z-index: 2;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	width: 100%;
 }
 
@@ -104,6 +127,10 @@ h2{
     background-color: #286090;
     border-color: #204d74;
 }
+.btn:disabled{
+	background-color: #d9d9d975;
+	/*border: none;*/
+}
 .step-directions{
 	text-align: center;
 }
@@ -117,9 +144,37 @@ input.airport-code{
 	width: 4em;
 }
 .map-container{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	width: 100%;
-	height: 600px;
+	height: 100%;
 }
+.blue{
+	color: rgba(41, 128, 185, 1);
+}
+.red{
+	color: rgba(192, 57, 43, 1);
+}
+.green{
+	color: rgba(39, 174, 96, 1);
+}
+.orange{
+	color: rgba(230, 126, 34, 1);
+}
+.purple{
+	color: rgba(142, 68, 173, 1);
+}
+.yellow{
+	color: rgba(241, 196, 15, 1);
+}
+
+
+
+
+
 #mymap{
 	height: 100%; 
 	width: 100%; 
@@ -129,13 +184,14 @@ input.airport-code{
 	z-index: -1;*/ 
 }
 .searchSide{
+	text-align: center;
 	width: 450px;
 	display: flex;
 	flex-direction: column;
-	background: #fafafaad;
+	/*background: #fafafaad;*/
 	padding: 20px;
-	border-radius: 20px;
-	border: 1px solid lightseagreen;
+	/*border-radius: 20px;*/
+	/*border: 1px solid lightseagreen;*/
 }
 .next-field{
 	display: flex;
