@@ -24,7 +24,7 @@ const store = {
 		originsLatLng: [], // [{airport: 'MSP', lat: 44.8793  ,lng: -93.1987 }],
 		destinationLatLng: { },// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
 		destination: '',
-		polylines: [],
+		mapOffset: 20,
 		resultsObjects: [],
 		timeZones: [],
 		chartDatasets: [],
@@ -81,6 +81,8 @@ $('#departure_date').change(function(event){
 	if (valid) {
 		$('.btn.next').prop('disabled', false);
 		store.departure_date = moment(date)
+		$('.slogan').fadeOut()
+		$('.dateDisplay h2').hide().html(store.departure_date.format('dddd MMM Do YYYY')).fadeIn()
 	} else {
 		$('.btn.next').prop('disabled', true);
 
@@ -96,11 +98,12 @@ $('.originAirportInputs input').keyup(function(event){
 		 handleAirportInput(response)
 	}
 })
-$('.leftSide').on('click', '.x-out', function(event){
+$('.rightSide').on('click', '.x-out', function(event){
 	let airport = $(this).closest('.flight-search-block').attr('originairport')
 	let goner = store.originsLatLng.find((ap)=> ap.airport === airport)
 	remove(store.originsLatLng, goner);
 	displayOriginAirports();
+	doMapMarkers();
 	let thisInput = $(`.originAirportInputs [airport=${airport}]`)
 	thisInput.prop('disabled', false)
 	thisInput.val('')

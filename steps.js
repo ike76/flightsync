@@ -50,7 +50,7 @@ function handleAirportInput(response){
 }
 
 function displayOriginAirports(flightObj){
-	let $column = $('.leftSide')
+	let $column = $('.rightSide')
 	$column.html('')
 	function makeHtml(orig, i){
 		let dest = store.destinationLatLng;
@@ -73,7 +73,7 @@ function displayOriginAirports(flightObj){
 		})
 	}
 	if(flightObj){
-		let nextIndex = $('.leftSide').find('.flight-search-block').length
+		let nextIndex = $('.rightSide').find('.flight-search-block').length
 		$(makeHtml(flightObj, nextIndex)).hide().appendTo($column).fadeIn();
 	}
 
@@ -98,7 +98,7 @@ function showHideStuff(num = store.partIndex){
 		// pick a date
 		$('.btn.next').prop('disabled', true);
 		$('.display-airport').hide();
-		$('#departure_date').show();
+		$('#departure_date').show().focus();
 		$('#answerQuery').hide()
 
 	}
@@ -106,7 +106,9 @@ function showHideStuff(num = store.partIndex){
 		console.log('showHide called with num', num)
 		// choose departure airports
 		$('#departure_date').hide();
-		$('.originAirportInputs').show();
+		
+		$('.originAirportInputs').show()
+		$('.originAirportInputs').find('input:first').focus()
 
 	}
 	if (num === 3) {

@@ -66,17 +66,37 @@ function getCircle(color = 'grey'){
                 };
             }
 
-function addMarkerToMap(obj){
+function addMarkerToMap(obj, i){
     let {lat,lng,airport} = obj;
-    map.addMarker({lat, lng, airport, label: {text: airport, fontSize: '10px'}, icon: getCircle() }) // add this marker `${i+1}`
+    map.addMarker({lat, lng, airport, label: {text: airport, fontSize: '10px'}, icon: getCircle(store.colors[i]) }) // add this marker `${i+1}`
 }
 
 function doMapMarkers(){
     map.removeMarkers()
     addMarkerToMap(store.destinationLatLng)
-    store.originsLatLng.forEach(orig=> addMarkerToMap(orig))
+    store.originsLatLng.forEach((orig, i)=> addMarkerToMap(orig, i))
     drawRoutes();
+    if(store.originsLatLng.length) doMapBounds();
+        else map.panTo({lat: store.destinationLatLng.lat + store.mapOffset, lng: store.destinationLatLng.lng})
+}
 
+// function makeBounds(){
+//     store.bounds = new google.maps.LatLngBounds();
+// }
+function doMapBounds(){
+    let bounds = new google.maps.LatLngBounds();
+    let highestLat = 0;
+    let lowestLat = 180;
+    [...store.originsLatLng, store.destinationLatLng].forEach(loc=>{
+        if (loc.lat > highestLat) highestLat = loc.lat;
+        if (loc.lat < lowestLat ) lowestLat = loc.lat
+        bounds.extend(loc)
+    });
+    store.mapOffset = (highestLat - lowestLat) * 1.25;
+    console.log('store.mapOffset', store.mapOffset)
+    let offsetPoint = {lat: highestLat + store.mapOffset, lng: store.destinationLatLng.lng}
+    bounds.extend(offsetPoint);
+    map.fitBounds(bounds)
 }
 
 function drawRoutes(){
@@ -84,11 +104,10 @@ function drawRoutes(){
     if(dest && store.originsLatLng.length){
         // remove current polylines first
         map.removePolylines()
-        store.polylines = [];
 
         console.log('routes being drawn')
         store.originsLatLng.forEach( (orig, i)=>{
-            let newLine = new google.maps.Polyline({
+            map.drawPolyline({
                 path: [{lat: orig.lat, lng: orig.lng},{lat: dest.lat, lng: dest.lng}],
                 strokeColor: store.colors[i],
                 strokeOpacity: 0.4,
@@ -99,11 +118,11 @@ function drawRoutes(){
                 repeat: "75px"
                 }]
             })
-            store.polylines.push(newLine)
+            // store.polylines.push(newLine)
+            // map.drawPolyline(newLine)
         })
     }
 }
-
 
 
     let map = new GMaps({
@@ -119,181 +138,6 @@ function drawRoutes(){
       // dragend: function(e) {
       //   alert('dragend');
       // }
-      styles: [
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e9e9e9"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 29
-            },
-            {
-                "weight": 0.2
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 18
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#dedede"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "saturation": 36
-            },
-            {
-                "color": "#999999"
-            },
-            {
-                "lightness": 40
-            }
-        ]
-    },
-    {
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f2f2f2"
-            },
-            {
-                "lightness": 19
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 17
-            },
-            {
-                "weight": 1.2
-            }
-        ]
-    }
-]
+      styles: mapStyle
     });
 

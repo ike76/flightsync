@@ -12,7 +12,7 @@ main {
 	position: absolute;
 }
 .container{
-	top: 80px;
+	top: 50px;
 	position: relative;
 	display: flex;
 	justify-content: center;
