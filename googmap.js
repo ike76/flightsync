@@ -55,26 +55,30 @@
 // updateMapBounds()	
 // }
 
-function getCircle(color = 'grey'){
+function getCircle(color = 'black', fillColor = 'white'){
                 return {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 13,
                     strokeColor: color,
                     strokeWeight: 1,
-                    fillColor: 'white',
+                    fillColor: fillColor,
                     fillOpacity: 1,
                 };
             }
 
-function addMarkerToMap(obj, i){
-    let {lat,lng,airport} = obj;
-    map.addMarker({lat, lng, airport, label: {text: airport, fontSize: '10px'}, icon: getCircle(store.colors[i]) }) // add this marker `${i+1}`
+function addMarkerToMap(obj, i, fillColor){
+    if (obj){
+        let {lat,lng,airport} = obj;
+        map.addMarker({lat, lng, airport, label: {text: airport, fontSize: '10px'}, icon: getCircle(store.colors[i], fillColor) }) // add this marker `${i+1}`
+    }
 }
 
 function doMapMarkers(){
     map.removeMarkers()
-    addMarkerToMap(store.destinationLatLng)
-    store.originsLatLng.forEach((orig, i)=> addMarkerToMap(orig, i))
+    addMarkerToMap(store.destinationLatLng, null, 'Yellow')
+    store.originsLatLng.forEach((orig, i)=> {
+        if (typeof orig.lat !== 'undefined') {addMarkerToMap(orig, i)}
+    })
     drawRoutes();
     if(store.originsLatLng.length) doMapBounds();
         else map.panTo({lat: store.destinationLatLng.lat + store.mapOffset, lng: store.destinationLatLng.lng})
@@ -85,39 +89,50 @@ function doMapMarkers(){
 // }
 function doMapBounds(){
     let bounds = new google.maps.LatLngBounds();
-    let highestLat = 0;
-    let lowestLat = 180;
+    let highestLat = -90;
+    let lowestLat = 90;
+    let highestLng = -180;
+    let lowestLng = 180;
     [...store.originsLatLng, store.destinationLatLng].forEach(loc=>{
-        if (loc.lat > highestLat) highestLat = loc.lat;
-        if (loc.lat < lowestLat ) lowestLat = loc.lat
-        bounds.extend(loc)
+        if (typeof loc.lat !== 'undefined'){
+            if (loc.lat > highestLat) highestLat = loc.lat;
+            if (loc.lat < lowestLat ) lowestLat = loc.lat;
+            if (loc.lng < lowestLng ) lowestLng = loc.lng;
+            if (loc.lng > highestLng ) highestLng = loc.lng;
+
+            bounds.extend(loc)
+        }
     });
-    store.mapOffset = (highestLat - lowestLat) * 1.25;
-    console.log('store.mapOffset', store.mapOffset)
+    // let center = bounds.getCenter()
+    
+    store.mapOffset = (highestLat - lowestLat) * 1.5 ;
     let offsetPoint = {lat: highestLat + store.mapOffset, lng: store.destinationLatLng.lng}
     bounds.extend(offsetPoint);
-    map.fitBounds(bounds)
+    map.fitBounds(bounds )
+
 }
 
 function drawRoutes(){
+    map.removePolylines()
     let dest = store.destinationLatLng
     if(dest && store.originsLatLng.length){
         // remove current polylines first
-        map.removePolylines()
 
-        console.log('routes being drawn')
+        // console.log('routes being drawn')
         store.originsLatLng.forEach( (orig, i)=>{
-            map.drawPolyline({
-                path: [{lat: orig.lat, lng: orig.lng},{lat: dest.lat, lng: dest.lng}],
-                strokeColor: store.colors[i],
-                strokeOpacity: 0.4,
-                strokeWeight: 1,
-                icons: [{
-                icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
-                offset: 0,
-                repeat: "75px"
-                }]
-            })
+            if (typeof orig.lat !== 'undefined'){
+                map.drawPolyline({
+                    path: [{lat: orig.lat, lng: orig.lng},{lat: dest.lat, lng: dest.lng}],
+                    strokeColor: store.colors[i],
+                    strokeOpacity: 0.4,
+                    strokeWeight: 1,
+                    icons: [{
+                    icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
+                    offset: 0,
+                    repeat: "75px"
+                    }]
+                })
+            }
             // store.polylines.push(newLine)
             // map.drawPolyline(newLine)
         })

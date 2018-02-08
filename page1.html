@@ -29,17 +29,19 @@
 							<h2>please enter a destination airport code:</h2>
 						</div> -->
 					</div>
-						<div class="row center-even margin15">
-							<button type="button" class="btn prev" style="visibility: hidden;">⬅︎  Prev</button>
+						<div class="row center-column margin15">
 							<input type="text" id="answerQuery">
 							<div class="originAirportInputs" hidden >
-								<input type="text" >
-								<input type="text" >
-								<input type="text" >
-								<input type="text" >
+								<input type="text" originIndex="0" >
+								<input type="text"  originIndex="1" >
+								<input type="text"  originIndex="2" >
+								<input type="text"  originIndex="3" >
 							</div>
 							<input type="date" id="departure_date" hidden>
-							<button type="button" class="btn next" disabled="">Next  ➡︎</button>
+							<div class="buttons">
+								<button type="button" class="btn prev" disabled="">⬅︎  Prev</button>
+								<button type="button" class="btn next" disabled="">Next  ➡︎</button>
+							</div>
 							
 						</div>
 						<div class="display-airport">

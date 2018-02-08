@@ -26,6 +26,11 @@ main {
 	justify-content: space-around;
 	align-items: center;
 }
+.center-column{
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
 .col-10{
 	width: 10%;
 }

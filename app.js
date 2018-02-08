@@ -7,7 +7,6 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
 
 
-
 // prefill search boxes with default values
 // document.getElementById('departure_date').valueAsDate =  moment().add(5,'days').toDate();
 // document.getElementById('return_date').valueAsDate =  moment().add(10,'days').toDate();
@@ -91,11 +90,14 @@ $('#departure_date').change(function(event){
 
 $('.originAirportInputs input').keyup(function(event){
 	let response = validateAirportCode($(this))
+	let index = $(this).attr('originIndex')
 	if (response){
 		$(this).attr('airport', response.code)
 		$(this).val(response.code.toUpperCase())
-		$(this).prop('disabled', true)
-		 handleAirportInput(response)
+		// $(this).prop('disabled', true)
+		 handleAirportInput(response, index)
+	} else {
+		handleAirportInput(null, index)
 	}
 })
 $('.rightSide').on('click', '.x-out', function(event){

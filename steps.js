@@ -33,20 +33,24 @@ function formatResponseAirport(response){
 	}
 }
 
-function handleAirportInput(response){
-	// format it for flightsync
-	let flightObj = formatResponseAirport(response)
-	// if its the first step, make it the destination
-	if(store.partIndex===0){
-	 store.destinationLatLng = flightObj
+function handleAirportInput(response, index){
+	if (response){
+		let flightObj = formatResponseAirport(response)
+		// if its the first step, make it the destination
+		if(store.partIndex===0){
+		 store.destinationLatLng = flightObj
+		}
+		//otherwise check if it is already in the origin array, if not, put it in there.
+		else if (!store.originsLatLng.find(ap=> ap.airport === flightObj.airport)){
+		 store.originsLatLng[index] = flightObj
+		}
+	} else {
+		store.originsLatLng[index] = {} // wipe that one out
 	}
-	//otherwise check if it is already in the origin array, if not, put it in there.
-	else if (!store.originsLatLng.find(ap=> ap.airport === flightObj.airport)){
-	 displayOriginAirports(flightObj)
-	 store.originsLatLng.push(flightObj)
-	console.log('new ORIGIN airport added', store.originsLatLng)
-	}
+
+	 displayOriginAirports()
 	 doMapMarkers();
+
 }
 
 function displayOriginAirports(flightObj){
@@ -69,13 +73,13 @@ function displayOriginAirports(flightObj){
 	}
 	if(store.originsLatLng.length){
 		store.originsLatLng.forEach((orig, i)=>{
-			$column.append(makeHtml(orig, i))
+			if(typeof orig.lat !== 'undefined') $column.append(makeHtml(orig, i))
 		})
 	}
-	if(flightObj){
-		let nextIndex = $('.rightSide').find('.flight-search-block').length
-		$(makeHtml(flightObj, nextIndex)).hide().appendTo($column).fadeIn();
-	}
+	// if(flightObj){
+	// 	let nextIndex = $('.rightSide').find('.flight-search-block').length
+	// 	$(makeHtml(flightObj, nextIndex)).hide().appendTo($column).fadeIn();
+	// }
 
 }
 
@@ -99,6 +103,8 @@ function showHideStuff(num = store.partIndex){
 		$('.btn.next').prop('disabled', true);
 		$('.display-airport').hide();
 		$('#departure_date').show().focus();
+		$('#departure_date').val('2018-06-15')
+
 		$('#answerQuery').hide()
 
 	}
@@ -106,7 +112,7 @@ function showHideStuff(num = store.partIndex){
 		console.log('showHide called with num', num)
 		// choose departure airports
 		$('#departure_date').hide();
-		
+
 		$('.originAirportInputs').show()
 		$('.originAirportInputs').find('input:first').focus()
 
@@ -124,7 +130,7 @@ function setDirectionsMessage(err = false){
 	let partsText = [
 		{
 			num: 1,
-			comm: 'Please enter a destination airport code:',
+			comm: 'Please enter a <strong style="text-decoration: underline;">destination</strong> airport code:',
 			err: 'please enter a valid airport code'
 		},
 		{

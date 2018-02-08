@@ -32,7 +32,7 @@ h2{
 	background-color: lightgrey;
 }
 .display-airport{
-	margin-top: 20px;
+	margin-top: 15px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -94,13 +94,13 @@ h2{
 	/*top: 50px;*/
 	z-index: 2;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	width: 100%;
 }
 
 .btn{
 	display: inline-block;
-    padding: 6px 12px;
+    padding: 3px 6px;
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 400;
@@ -130,6 +130,12 @@ h2{
 .btn:disabled{
 	background-color: #d9d9d975;
 	/*border: none;*/
+}
+.buttons{
+	justify-content: space-around;
+	display: flex;
+	width: 80%;
+	margin-top: 15px;
 }
 .step-directions{
 	text-align: center;
@@ -186,7 +192,7 @@ input.airport-code{
 .searchSide{
 	text-align: center;
 	width: 450px;
-	height: 300px;
+	/*height: 300px;*/
 	display: flex;
 	flex-direction: column;
 	/*background: #fafafaad;*/
