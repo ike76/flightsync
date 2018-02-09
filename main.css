@@ -21,6 +21,10 @@ h2{
 	font-size: 18px;
 	margin: 0;
 }
+p{
+	font-family: 'Tenor Sans', sans-serif;
+	margin: 4px;
+}
 #answerQuery, #departure_date, .originAirportInputs input{
 	    height: 30px;
     font-size: 20px;
@@ -54,7 +58,7 @@ h2{
 	width: 275px;
 }
 .rightSide{
-	width: 275px;
+	/*width: 275px;*/
 	padding-top: 20px;
 	display: flex;
 	flex-direction: column;
@@ -63,7 +67,7 @@ h2{
 }
 .flight-search-block{
 	margin-top: 10px;
-	display: flex;
+	/*display: flex;*/
 	align-items: center;
 }
 .x-out{
@@ -158,6 +162,32 @@ input.airport-code{
 	width: 100%;
 	height: 100%;
 }
+.small-map-holder{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	/*background-color: salmon;*/
+	z-index: -2;
+}
+.small-map-holder:after {
+  content  : "";
+  position : absolute;
+  z-index  :0;
+  bottom   : 0;
+  left     : 0;
+  pointer-events   : none;
+  background-image : linear-gradient(to bottom, 
+                    rgba(255,255,255, 0), 
+                    rgba(255,255,255, 1) 90%);
+  width    : 100%;
+  height   : 7em;
+}
+#mySmallMap{
+	height: 100%;
+}
+
 .blue{
 	color: rgba(41, 128, 185, 1);
 }
@@ -180,7 +210,6 @@ input.airport-code{
 
 
 
-
 #mymap{
 	height: 100%; 
 	width: 100%; 
@@ -191,7 +220,7 @@ input.airport-code{
 }
 .searchSide{
 	text-align: center;
-	width: 450px;
+	/*width: 450px;*/
 	/*height: 300px;*/
 	display: flex;
 	flex-direction: column;
@@ -280,7 +309,7 @@ ul{
 	flex-direction: column;
 	justify-content: space-between;
 	margin-top: 15px;
-	width: 550px;
+	max-width: 550px;
 }
 
 .flight-result .left-side{
@@ -312,7 +341,6 @@ ul{
 .flight-result .maininfo{
 	font-family: 'Cantarell', sans-serif;
 	margin: 0;
-	font-size: 15px;
 }
 .flight-result .airplane{
 	color: lightgrey;
@@ -364,4 +392,17 @@ ul{
 #typedtext{
 	font-family: 'Coming Soon', cursive;
 	font-size: 20px;
+}
+
+@media screen and (min-width: 416px){ /* big screens  */
+	.maininfo{
+		font-size: 15px;
+	}
+
+}
+
+@media screen and (max-width: 415px) { /*  phone screens */
+	.maininfo {
+		font-size: 10px;
+	}
 }

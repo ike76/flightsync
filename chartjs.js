@@ -13,6 +13,7 @@ function createChart(datasets){
 	    data: {
 	        datasets: datasets,
         },
+        responsive: true,
 	    options: {
 	        scales: {
 	            xAxes: [{

@@ -18,6 +18,11 @@ $('.btn.next').click( ()=>{
 	}
 })
 
+$('.btn.prev, .btn.searchButton').click( ()=>{
+	store.partIndex -= 1;
+	moveAlong();
+})
+
 $('.instructions').on('click', '.prev', ()=>{
 	if (store.partIndex > 0) {store.partIndex -= 1};
 	setDirectionsMessage()
@@ -30,6 +35,7 @@ function formatResponseAirport(response){
 		lng: Number(response.lon),
 		airport: response.code,
 		city: response.city,
+		tz: response.tz,
 	}
 }
 
@@ -86,7 +92,7 @@ function displayOriginAirports(flightObj){
 function verify(num = store.partIndex){ // return true if this step is verified
 	if (num === 0) { return typeof store.destinationLatLng.city === 'string' };
 	if (num === 1) { return moment(store.departure_date).isValid() }
-	if (num === 2) {}
+	if (num === 2) { return store.originsLatLng.length } // if theres at least one to search on
 	if (num === 3) {}
 	if (num === 4) {}
 	if (num === 5) {}
@@ -95,18 +101,26 @@ function verify(num = store.partIndex){ // return true if this step is verified
 function showHideStuff(num = store.partIndex){
 	if (num === 0) {
 		$('#destination').show()
+		$('#answerQuery').show().focus();
+		$('.display-airport').show()
+		$('#departure_date').hide()
+		$('.btn.prev').prop('disabled', true);
 
 	};
 	if (num === 1) {
 		console.log('showHide called with num', num)
 		// pick a date
 		$('.btn.next').prop('disabled', true);
-		$('.display-airport').hide();
+		$('.btn.prev').prop('disabled', false);
+		$('.originAirportInputs').hide()
+		if (store.departure_date && store.departure_date.isValid()) { $('.btn.next').prop('disabled', false) }
 		$('#departure_date').show().focus();
+		$('.display-airport').hide();
 		$('#departure_date').val('2018-06-15')
-
+		$('.btn.next').text('Next  ➡︎').removeClass('searchFlights')
 		$('#answerQuery').hide()
-
+		$('.btn.next').show()
+		$('.searchButton').hide()
 	}
 	if (num === 2) {
 		console.log('showHide called with num', num)
@@ -114,11 +128,19 @@ function showHideStuff(num = store.partIndex){
 		$('#departure_date').hide();
 
 		$('.originAirportInputs').show()
-		$('.originAirportInputs').find('input:first').focus()
+		$('.originAirportInputs').find('input:first').focus()	
+		$('.btn.next').hide()
+		$('.searchButton').show()
 
 	}
 	if (num === 3) {
+		// show search results
 		console.log('showHide called with num', num)
+		$('.center-column').hide()
+		$('.rightSide .flight-search-block').hide()
+		$('.btn.prev, .btn.next, .btn.searchButton').hide()
+		$('.originAirportInputs').hide();
+
 	}
 	if (num === 4) {
 		console.log('showHide called with num', num)
@@ -131,17 +153,22 @@ function setDirectionsMessage(err = false){
 		{
 			num: 1,
 			comm: 'Please enter a <strong style="text-decoration: underline;">destination</strong> airport code:',
-			err: 'please enter a valid airport code'
+			sub: '* This is where all travelers will MEET'
 		},
 		{
 			num: 2,
 			comm: 'please pick a departure date',
-			err: 'error: please choose a date',
+			sub: '',
 		},
 		{
 			num: 3,
 			comm: 'Please choose departure airports',
-			err: 'please enter a valid airport code',
+			sub: 'please enter a valid airport code',
+		},
+		{
+			num: 4,
+			comm: `Use sliders to choose preferred landing times at ${store.destinationLatLng.airport}`,
+			sub: '',
 		}
 	];
 
@@ -152,7 +179,8 @@ function setDirectionsMessage(err = false){
 					<h1>Step ${part.num}:</h1>
 			</div>
 			<div class="row center-even">
-				<h2>${!err ? part.comm : part.err}</h2>
+				<h2>${part.comm}</h2>
+				<p>${part.sub ? part.sub : ''}</p>
 			</div>		`
 	}
 

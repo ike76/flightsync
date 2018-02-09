@@ -48,6 +48,7 @@ const store = {
 
 function validateAirportCode(textbox){
 	let response = airports.find(a=> a.code === textbox.val().toUpperCase().trim() ) || '';
+	// if ( typeof response.code !== 'undefined' && response.code !== store.destinationLatLng.airport) // make sure 
 	return response;
 }
 
@@ -100,6 +101,7 @@ $('.originAirportInputs input').keyup(function(event){
 		handleAirportInput(null, index)
 	}
 })
+
 $('.rightSide').on('click', '.x-out', function(event){
 	let airport = $(this).closest('.flight-search-block').attr('originairport')
 	let goner = store.originsLatLng.find((ap)=> ap.airport === airport)
@@ -229,32 +231,29 @@ function displayAirport(response){
 
 
 // handle flight search
-$('#searchFlights').on('submit', function(event){
-	event.preventDefault();
+$('.searchButton').on('click', function(event){
+	// event.preventDefault();
 	store.prices = []; //empty it out.
+	store.destination = store.destinationLatLng.airport;
+	createFlightSearchPromises();
 
-	store.departure_date = $(this).find('#departure_date').val();
+	// store.departure_date = $(this).find('#departure_date').val();
 	//populate the store.origin array with origin airports
-	$(this).find('.origin-airport').each(function(){
-		let originAirport = this.value.toUpperCase().trim()
-		if ( airports.find(ap=> ap.code===originAirport ) ) {
-		let {lat, lon:lng} = airports.find(ap=> ap.code===originAirport )
-		store.origins.push(originAirport)
-		store.originsLatLng.push({airport: originAirport , lat: Number(lat), lng: Number(lng) })
-		} else {
-			console.log(`can't find airport called ${originAirport}`)
-		}
-	})
+	// $(this).find('.origin-airport').each(function(){
+	// 	let originAirport = this.value.toUpperCase().trim()
+	// 	if ( airports.find(ap=> ap.code===originAirport ) ) {
+	// 	let {lat, lon:lng} = airports.find(ap=> ap.code===originAirport )
+	// 	store.origins.push(originAirport)
+	// 	store.originsLatLng.push({airport: originAirport , lat: Number(lat), lng: Number(lng) })
+	// 	} else {
+	// 		console.log(`can't find airport called ${originAirport}`)
+	// 	}
+	// })
 
-{	store.destination = $(this).find('#destination').val().trim().toUpperCase();
-	let {lat, lon:lng} = airports.find(ap=> ap.code===store.destination )
-	console.log('destination set to', store.destination)
-	store.destinationLatLng = {airport: store.destination, lat: Number(lat), lng: Number(lng)}
-}
-	getTimeZones([...store.origins, store.destination]);
-	let resultsObjectsLocal = JSON.parse(localStorage.getItem('resultsObjects'))
 
-		createFlightSearchPromises();
+	// getTimeZones([...store.origins, store.destination]);
+	// let resultsObjectsLocal = JSON.parse(localStorage.getItem('resultsObjects'))
+
 	
 	// console.log('results objects from file', resultsObjectsFromFile)
 	// createFake
@@ -269,21 +268,28 @@ function createFlightSearchPromises(){
 	// 	})
 	// })
 
-	const promises = [ ...store.origins ].map(origin => {
-		return new Promise((resolve, reject)=>{
-			handleFlightSearch(origin, resolve)
+	const promises = store.originsLatLng
+		.filter(origin=> typeof origin.airport !== 'undefined') // get rid of empties
+		.map(origin => {
+			if(typeof origin.airport !== 'undefined'){
+				console.log('making Promise for', origin.airport)
+				return new Promise((resolve, reject)=>{
+					handleFlightSearch(origin.airport, resolve)
+				})
+			}
 		})
-	})
 
 	Promise.all(promises).then(flightPlansArr => {
 		// console.log('flightPlansArr is ->',flightPlansArr);
 		store.resultsObjects = flightPlansArr.map((each, i)=> {
-			return new FlightResultGroup(each, store.timeZones[i], store.timeZones[store.timeZones.length -1], store.origins[i], store.destination, store.colors[i])
+			return new FlightResultGroup(each, store.originsLatLng[i].tz, store.destinationLatLng.tz, store.originsLatLng[i].airport, store.destinationLatLng.airport, store.colors[i])
 		})
 	}).then(()=>{
 		console.log('store obj', store.resultsObjects)
 		localStorage.setItem('resultsObjects', JSON.stringify(store.resultsObjects));
 		handleResultsObjects();
+		doSmallMap();
+		$('.chart-sliders-container').fadeIn()
 
 	})
 
@@ -304,9 +310,9 @@ function handleFlightSearch(origin, resolve){
 	let endpoint = `https://api.sandbox.amadeus.com/v1.2/flights/low-fare-search`;
 	// let number_of_results = 15;
 	$.getJSON(endpoint, {
-		departure_date: store.departure_date,
+		departure_date: store.departure_date.format('YYYY-MM-DD'),
 		origin,
-		destination: store.destination, 
+		destination: store.destinationLatLng.airport, 
 		number_of_results: 15, 
 		apikey: store.apikey,
 	}).done(function(data){
@@ -328,6 +334,7 @@ function handleFlightResponse (json, textStatus){
 	result = new FlightResultGroup(json, store.zones);
 	result.displayAllItineraries();
 	result.chartAllItineraries();
+
 }
 
 //make display flights sortable

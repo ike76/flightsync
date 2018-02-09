@@ -80,7 +80,9 @@ function doMapMarkers(){
         if (typeof orig.lat !== 'undefined') {addMarkerToMap(orig, i)}
     })
     drawRoutes();
-    if(store.originsLatLng.length) doMapBounds();
+    if(store.originsLatLng
+        .filter(orig=> typeof orig.airport !== 'undefined')
+        .length) doMapBounds();
         else map.panTo({lat: store.destinationLatLng.lat + store.mapOffset, lng: store.destinationLatLng.lng})
 }
 
@@ -111,6 +113,42 @@ function doMapBounds(){
     map.fitBounds(bounds )
 
 }
+
+function doSmallMap(){
+    let detMap = $('#mymap').detach()
+
+    map = new GMaps({
+      div: '#mySmallMap',
+      zoom: 3,
+      lat: 39.8333333,
+      lng: -158.585522,
+      disableDefaultUI: true,
+
+      // click: function(e) {
+      //   alert('click');
+      // },
+      // dragend: function(e) {
+      //   alert('dragend');
+      // }
+      styles: mapStyle
+    });
+
+    drawRoutes()
+    doSmallMapBounds()
+
+}
+
+function doSmallMapBounds(){
+    let bounds = new google.maps.LatLngBounds();
+    [...store.originsLatLng, store.destinationLatLng].forEach(loc=>{
+        if (typeof loc.lat !== 'undefined'){
+            bounds.extend(loc)
+        }
+    });
+    map.fitBounds(bounds)
+}
+
+
 
 function drawRoutes(){
     map.removePolylines()

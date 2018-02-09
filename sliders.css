@@ -24,8 +24,9 @@
 }
 
 .chart-sliders-container{
-	width: 800px;
+	/*width: 800px;*/
 	height: 500px;
+	z-index: 2;
 	/*border: 1px solid grey;*/
 /*	display: flex;
 	flex-direction: column;
@@ -37,7 +38,11 @@
 
 }
 #chartContainer{
-	width: 100%;
+	position: relative;
+	/*height: 40vh;*/
+	width: 80vw;
+	max-width: 700px;
+	min-width: 350px;
 
 }
 .rawResults{

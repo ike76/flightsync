@@ -65,7 +65,7 @@ class FlightResultGroup { // several flight options
 			</div>
 		</div>
 		<div class="bottom">
-			<div class="buttons">
+			<div class="small-buttons">
 				<button class="btn remove">remove</button>
 				<button class="btn add">add</button>
 			</div>

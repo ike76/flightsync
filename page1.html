@@ -15,10 +15,13 @@
 	<link rel="stylesheet" href="main.css">
 </head>
 <body>
+	<div class="small-map-holder">
+		<div id="mySmallMap"></div>
+	</div>
 <div class="container">
 
 			<div class="intro-block">
-				<div class="searchSide">
+				<div class="searchSide col-50">
 					
 					<div class="instructions">
 
@@ -41,6 +44,7 @@
 							<div class="buttons">
 								<button type="button" class="btn prev" disabled="">⬅︎  Prev</button>
 								<button type="button" class="btn next" disabled="">Next  ➡︎</button>
+								<button type="button" class="btn searchButton" style="display: none;" >Search  ➡︎</button>
 							</div>
 							
 						</div>
@@ -51,7 +55,7 @@
 						</div>
 						
 				</div>
-				<div class="rightSide">
+				<div class="rightSide col-50">
 					<div class="dateDisplay">
 						<h2></h2>
 					</div>
@@ -71,123 +75,7 @@
 <main>
 
 
-<!-- 					
-					<div class="display-input-results">
-						<div class="leftside">
-							<div class="airport-codes">
-								<h1>MCO <i class="fas fa-arrow-circle-right"></i> ORD</h1>
-							</div>
-							<div class="cities">
-								<div class="airport-city"><span class="origination-city city">Minneapolis, MN</span> to <span class="destination-city city">Orlando, FL</span></div> 
-							</div>
-							
-						</div>
-						<div class="rightside">
-							<a href="#"><i class="far fa-times-circle"></i></a>
-						</div>
-					</div>
-
- -->					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-
-					</div>
-					<!-- <div class="display-input-results">
-						<div class="airport">
-							<h1>MCO</h1>
-							<div class="airportInfo">
-								<div class="displayAirportName search" style>
-									Orlando International Airport
-								</div>
-								<div class="displayAirportCityState search" style>
-									Orlando, Florida
-								</div>		
-						</div>
-					</div> -->
-<!-- 					<div class="searchForm">
-					<form action="#" id="searchFlights">
-					<fieldset>
-						<div class="searchBox">
-							<div>
-								<label for="destination" class="control-label">To: ➪</label>
-								<input type="text" id="destination" class="airport-code">
-								<h1 class="js-airport-code" hidden></h1>
-							</div>
-							<div class="airportInfo">
-								<div class="displayAirportName search" ></div>
-								<div class="displayAirportCityState search"></div>
-							</div>
-						</div>
-
-							<div class="searchBox datepicker" style="visibility: hidden;">
-								<input type="date" id="departure_date">
-							</div>
-							
-							
-						<div class="searchBoxHolster" style="visibility: hidden;">
-							<div class="searchBox">
-								<div>
-									<label for="origin1" class="control-label">From:</label>
-									<input type="text" class="origin-airport airport-code">
-								</div>
-								<div class="airportInfo">
-									<div class="displayAirportName search" ></div>
-									<div class="displayAirportCityState search"></div>
-								</div>
-							</div>
-						</div>
-						<div class="searchBoxHolster" style="visibility: hidden;">
-							<div class="searchBox">
-								<div>
-									<label for="origin1" class="control-label">From:</label>
-									<input type="text" class="origin-airport airport-code">
-								</div>
-								<div class="airportInfo">
-									<div class="displayAirportName search" ></div>
-									<div class="displayAirportCityState search"></div>
-								</div>
-							</div>
-						</div>
-						<div class="searchBoxHolster" style="visibility: hidden;">
-							<div class="searchBox">
-								<div>
-									<label for="origin1" class="control-label">From:</label>
-									<input type="text" class="origin-airport airport-code">
-								</div>
-								<div class="airportInfo">
-									<div class="displayAirportName search" ></div>
-									<div class="displayAirportCityState search"></div>
-								</div>
-							</div>
-						</div>
-						<div class="searchBoxHolster" style="visibility: hidden;">
-							<div class="searchBox">
-								<div>
-									<label for="origin1" class="control-label">From:</label>
-									<input type="text" class="origin-airport airport-code">
-								</div>
-								<div class="airportInfo">
-									<div class="displayAirportName search" ></div>
-									<div class="displayAirportCityState search"></div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="final-search" hidden>
-							<hr>
-							<button type="submit" >Search</button>
-							
-						</div>
-					</fieldset>
-
-
-				</form>
-					</div> -->
-
-				</div>
+			</div>
 				
 			</div>
 			<!-- <div class=" searchForm">
@@ -263,12 +151,12 @@
 			</div>			
 		</div><!-- end row -->
 	
-	<div class="row">
-		<div class="col-6 search">
+	<div class="row center">
+<!-- 		<div class="col-6 search">
 
 		</div>
-
-	 	<div class="chart-sliders-container">
+ -->
+	 	<div class="chart-sliders-container" hidden>
 			<div id="chartContainer">
 				<canvas id="flightsChart"> </canvas>
 			</div>
@@ -289,17 +177,7 @@
 			</div>
 		<div>
 			<ul class="rawResults sortable">
-				<!-- <div class="flight-result">
-					<h3 class="price">$56.30</h3>
-					<div class="leg">
-						<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
-					</div>
-					<div class="leg">
-						<p class="maininfo">AA #1234 Departs MSP at 11:00am | Arrives BOS at 11:30pm</p>
-						<p class="otherinfo">connects in DFW | travel time 3:23</p>
-					</div>
-				</div> -->
-			</ul>
+				</ul>
 		</div>
 	 		
 		</div>
