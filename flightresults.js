@@ -67,7 +67,7 @@ class FlightResultGroup { // several flight options
 		<div class="bottom">
 			<div class="small-buttons">
 				<button class="btn remove">remove</button>
-				<button class="btn add">add</button>
+				<!-- <button class="btn add">add</button> -->
 			</div>
 				<div class="travel-time">
 					total travel time = ${(itin.duration.days()) ? `${itin.duration.days()} days` : '' } ${itin.duration.hours()} hr ${itin.duration.minutes()} min

@@ -52,7 +52,7 @@ function validateAirportCode(textbox){
 	return response;
 }
 
-$('#answerQuery').keyup(function(event){
+$('#answerQuery').bind('keyup blur',function(event){
 	// validate airport
 	let response = validateAirportCode($(this))
 	let $airportDisplay = $('.display-airport')
@@ -63,14 +63,7 @@ $('#answerQuery').keyup(function(event){
 		handleAirportInput(response);
 		} else {
 			$('.btn.next').prop('disabled', true)
-			// if its at least 3 letters and not an airport code,
-			if ($(this).val().trim().length >= 3) {
-			$airportDisplay.html(`${$(this).val()} not found`)
-			console.log('no response from airport db', $(this).val().length)
-			} 
-			else {
-		 	$airportDisplay.html('')
-			}
+
 		}
 })
 
@@ -89,7 +82,7 @@ $('#departure_date').change(function(event){
 	}
 })
 
-$('.originAirportInputs input').keyup(function(event){
+$('.originAirportInputs input').bind('keyup blur',function(event){
 	let response = validateAirportCode($(this))
 	let index = $(this).attr('originIndex')
 	if (response){

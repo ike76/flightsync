@@ -152,7 +152,7 @@ function setDirectionsMessage(err = false){
 	let partsText = [
 		{
 			num: 1,
-			comm: 'Please enter a <strong style="text-decoration: underline;">destination</strong> airport code:',
+			comm: 'Please enter a <strong style="text-decoration: underline;">destination</strong> airport:',
 			sub: '(Where will travelers MEET?)'
 		},
 		{

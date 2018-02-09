@@ -55,6 +55,9 @@ ul{
 	.flight-search-block{
 		display: none;
 	}
+	.small-map-holder{
+		height: 150px;
+	}
 }
 
 @media only screen and (min-width: 416px) { /* big screens*/
@@ -65,7 +68,7 @@ ul{
 		display: flex;
 	}
 	.small-map-holder{
-		height: 250px;
+		height: 180px;
 	}
 	.flight-search-block{
 		display: flex;
