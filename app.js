@@ -17,7 +17,7 @@ const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 // $('#destination').val('MCO');
 
 const store = {
-		departure_date: '',
+		departure_date: moment().add(5, 'days'),
 		// origin: '',  
 		origins: [],
 		originsLatLng: [], // [{airport: 'MSP', lat: 44.8793  ,lng: -93.1987 }],
@@ -94,7 +94,7 @@ $('.originAirportInputs input').keyup(function(event){
 	let index = $(this).attr('originIndex')
 	if (response){
 		$(this).attr('airport', response.code)
-		$(this).val(response.code.toUpperCase())
+		// $(this).val(response.code.toUpperCase())
 		// $(this).prop('disabled', true)
 		 handleAirportInput(response, index)
 	} else {

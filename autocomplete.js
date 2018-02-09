@@ -5,7 +5,7 @@ function log( message ) {
 	$( "#log" ).scrollTop( 0 );
 	}
 
-$( "#city" ).autocomplete({
+$( "#answerQuery" ).autocomplete({
 	source: function( request, response ) {
 		$.ajax({
 			url: "./lib/js/airports.js",
@@ -33,4 +33,6 @@ $( "#city" ).autocomplete({
 		$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 		}
 });
+
+
 });

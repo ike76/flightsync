@@ -7,7 +7,7 @@ function moveAlong(){
 }
 
 
-$('.btn.next').click( ()=>{
+$('.btn.next, .btn.searchButton').click( ()=>{
 	console.log('verify', verify(store.partIndex))
 	if( verify() ){
 		store.partIndex += 1; // load up the next one
@@ -18,7 +18,7 @@ $('.btn.next').click( ()=>{
 	}
 })
 
-$('.btn.prev, .btn.searchButton').click( ()=>{
+$('.btn.prev').click( ()=>{
 	store.partIndex -= 1;
 	moveAlong();
 })
@@ -115,8 +115,8 @@ function showHideStuff(num = store.partIndex){
 		$('.originAirportInputs').hide()
 		if (store.departure_date && store.departure_date.isValid()) { $('.btn.next').prop('disabled', false) }
 		$('#departure_date').show().focus();
+		$('#departure_date').val(store.departure_date.format('YYYY-MM-DD'))
 		$('.display-airport').hide();
-		$('#departure_date').val('2018-06-15')
 		$('.btn.next').text('Next  ➡︎').removeClass('searchFlights')
 		$('#answerQuery').hide()
 		$('.btn.next').show()
@@ -153,17 +153,17 @@ function setDirectionsMessage(err = false){
 		{
 			num: 1,
 			comm: 'Please enter a <strong style="text-decoration: underline;">destination</strong> airport code:',
-			sub: '* This is where all travelers will MEET'
+			sub: '(Where will travelers MEET?)'
 		},
 		{
 			num: 2,
-			comm: 'please pick a departure date',
+			comm: 'Please pick a departure date',
 			sub: '',
 		},
 		{
 			num: 3,
 			comm: 'Please choose departure airports',
-			sub: 'please enter a valid airport code',
+			sub: "(Where are travelers starting?)",
 		},
 		{
 			num: 4,
