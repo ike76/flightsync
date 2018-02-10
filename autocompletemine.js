@@ -6,6 +6,7 @@ $('#answerQuery, .originAirportInputs input').autocomplete({
 	// delay: 500,
 	minLength: 4,
 	source: airportsMap,
+	
 	}
 )
 

@@ -21,10 +21,25 @@ h2{
 	font-size: 18px;
 	margin: 0;
 }
+h3, #charthelp{
+	font-family: 'Archivo Black', sans-serif;
+	
+}
+h4{
+	font-family: 'Archivo Black', sans-serif;
+    margin: 5px 0;
+}
 p{
 	font-family: 'Tenor Sans', sans-serif;
 	margin: 4px;
 }
+.fas.fa-spinner.fa-pulse{ 
+    font-size: 40px;
+    margin-top: 20px;
+    color: grey;
+}
+
+
 #answerQuery, #departure_date, .originAirportInputs input{
 	    height: 30px;
     font-size: 20px;
@@ -154,6 +169,7 @@ input.airport-code{
 	width: 4em;
 }
 .map-container{
+	z-index: -1;
 	position: fixed;
 	top: 0;
 	bottom: 0;
@@ -188,7 +204,7 @@ input.airport-code{
 	height: 100%;
 }
 
-.blue{
+/*.blue{
 	color: rgba(41, 128, 185, 1);
 }
 .red{
@@ -205,6 +221,9 @@ input.airport-code{
 }
 .yellow{
 	color: rgba(241, 196, 15, 1);
+}*/
+.results{
+	justify-content: center;
 }
 
 

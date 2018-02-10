@@ -25,6 +25,7 @@
 
 .chart-sliders-container{
 	/*width: 800px;*/
+	margin-top: 140px;
 	height: 500px;
 	z-index: 2;
 	/*border: 1px solid grey;*/

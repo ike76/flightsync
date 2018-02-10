@@ -46,6 +46,18 @@ ul{
 .small-map-holder{
 	height: 175px;
 }
+.center-screen{
+	position: fixed;
+	flex-direction: column;
+   /* left: 50%;
+    right: 50%;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    bottom: 50%;
+    z-index: 2;
+}
 
 @media only screen and (max-width: 415px) {  /*phone screens*/
 

@@ -61,7 +61,7 @@ function handleAirportInput(response, index){
 
 function displayOriginAirports(flightObj){
 	let $column = $('.rightSide')
-	$column.html('')
+	$column.find('.flight-search-block').remove()
 	function makeHtml(orig, i){
 		let dest = store.destinationLatLng;
 		return `
@@ -126,15 +126,19 @@ function showHideStuff(num = store.partIndex){
 		console.log('showHide called with num', num)
 		// choose departure airports
 		$('#departure_date').hide();
-
 		$('.originAirportInputs').show()
 		$('.originAirportInputs').find('input:first').focus()	
 		$('.btn.next').hide()
 		$('.searchButton').show()
+		$('.slogan').fadeOut();
 
 	}
 	if (num === 3) {
-		// show search results
+		// SEARCHING for results.   (waiting)
+		// put something in content area
+		// $('.intro-block').hide();
+		$('.center-screen').html( getWaitHtml() ).css('visibility', 'visible')
+		$('.searchSide').hide()
 		console.log('showHide called with num', num)
 		$('.center-column').hide()
 		$('.rightSide .flight-search-block').hide()
@@ -143,12 +147,33 @@ function showHideStuff(num = store.partIndex){
 
 	}
 	if (num === 4) {
+		// results are back - all good
 		console.log('showHide called with num', num)
+		$('.rightSide').show()
+		$('#charthelp').show()
+		$('.center-screen').html('').hide()
+		doSmallMap();
+		$('.chart-sliders-container').fadeIn()
 	}
 	if (num === 5) {}
 }
 
-function setDirectionsMessage(err = false){
+function getWaitHtml() {
+		let html = `
+			<h3>Searching for flights:</h3> `;
+			store.originsLatLng.forEach((orig, i)=>{
+				if(typeof orig.airport !== 'undefined'){
+					html += `<h4><span style="color: ${store.colors[i]};">${orig.airport}</span> <i class="fas fa-arrow-circle-right"></i> ${store.destinationLatLng.airport}</h4>`
+				}
+			})
+			html +=
+			`
+			<i class="fas fa-spinner fa-pulse"></i>
+		`
+		return html;
+	}
+
+function setDirectionsMessage(){
 	let partsText = [
 		{
 			num: 1,
@@ -165,11 +190,7 @@ function setDirectionsMessage(err = false){
 			comm: 'Please choose departure airports',
 			sub: "(Where are travelers starting?)",
 		},
-		{
-			num: 4,
-			comm: `Use sliders to choose preferred landing times at ${store.destinationLatLng.airport}`,
-			sub: '',
-		}
+		
 	];
 
 	function getHtml(){
@@ -183,9 +204,16 @@ function setDirectionsMessage(err = false){
 				<p>${part.sub ? part.sub : ''}</p>
 			</div>		`
 	}
+	function getFinalHtml(){
+		// put info about sliders, dots, buttons, etc.  
+	}
 
-	partHtml = getHtml()
-	$('.instructions').html( partHtml )
+	if(store.partIndex <= 2  ) {
+		$('.instructions').html( getHtml() )
+	} else { 
+		$('.intro-block').html( getFinalHtml() )
+	}
+	
 	
 }
 
