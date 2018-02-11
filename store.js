@@ -6,6 +6,7 @@ const store = {
 		destinationLatLng: { },// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
 		destination: '',
 		mapOffset: 20,
+		rejectedAirports: [],
 		resultsObjects: [],
 		timeZones: [],
 		chartDatasets: [],

@@ -117,7 +117,6 @@ function showHideStuff(num = store.partIndex){
 		$('#departure_date').show().focus();
 		$('#departure_date').val(store.departure_date.format('YYYY-MM-DD'))
 		$('.display-airport').hide();
-		$('.btn.next').text('Next  ➡︎').removeClass('searchFlights')
 		$('#answerQuery').hide()
 		$('.btn.next').show()
 		$('.searchButton').hide()
@@ -127,19 +126,28 @@ function showHideStuff(num = store.partIndex){
 		// choose departure airports
 		$('#departure_date').hide();
 		$('.originAirportInputs').show()
-		$('.originAirportInputs').find('input:first').focus()	
+		if (store.rejectedAirports.length) {
+			$('.originAirportInputs').find(`input[airport=${store.rejectedAirports[0]}]`).val('') 
+		} else {
+			$('.originAirportInputs').find('input:first').focus()
+		}
 		$('.btn.next').hide()
 		$('.searchButton').show()
 		$('.slogan').fadeOut();
+		$('.results-error').hide();
+		$('.searchSide').show()
+		$('.center-column').show()
+		$('.rightSide .flight-search-block').show()
+		$('.btn.prev, .btn.searchButton').show()
 
 	}
 	if (num === 3) {
 		// SEARCHING for results.   (waiting)
 		// put something in content area
 		// $('.intro-block').hide();
+		console.log('showHide called with num', num)
 		$('.center-screen').html( getWaitHtml() ).css('visibility', 'visible')
 		$('.searchSide').hide()
-		console.log('showHide called with num', num)
 		$('.center-column').hide()
 		$('.rightSide .flight-search-block').hide()
 		$('.btn.prev, .btn.next, .btn.searchButton').hide()

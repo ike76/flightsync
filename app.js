@@ -104,6 +104,11 @@ $('.rightSide').on('click', '.x-out', function(event){
 	console.log('thisInput', thisInput)
 })
 
+$('.results-error').on('click', function(){
+	store.partIndex = 2;
+	moveAlong()
+})
+
 function remove(array, element) {
     const index = array.indexOf(element);
     if (index !== -1) {
@@ -150,11 +155,12 @@ function createFlightSearchPromises(){
 
 	Promise.all(promises).then(flightPlansArr => {
 		// check flightPlansArr make sure they're objects not just a string
-		let rejectedAirport = flightPlansArr.filter(flight=> typeof flight === 'string');
+		let rejectedAirports = flightPlansArr.filter(flight=> typeof flight === 'string');
 				// show an error screen explaining which origin airports were no good
-		if (rejectedAirport.length){
+		if (rejectedAirports.length){
 			// show error page explaining rejected airport(s)
-			
+			store.rejectedAirports = rejectedAirports;
+			showErrorPage(rejectedAirports)
 			// send back to STEP 3, with error messages
 		} else {
 			store.resultsObjects = flightPlansArr.map((flightPlan, i)=> {
@@ -181,6 +187,43 @@ function handleResultsObjects(){
 	createChart(store.chartDatasets)
 	createSliders()
 	// createMap()
+}
+function showErrorPage(rejectedAirports){
+	let html = '';
+	function errorHtml(orig){
+		return `
+		<div class="results-error-card error" originAirport="${orig.airport}">
+			<i class="fas fa-exclamation thumbs"></i>
+			<div>
+				<h1 ><span>${orig.airport}</span><i class="fas fa-arrow-circle-right"></i><span class="">${store.destinationLatLng.airport}</span></h1>
+				<p class="cities">No flights found for </p>
+				<p class="cities"><span class="city">${orig.city}</span> to <span class="city">${store.destinationLatLng.city}</span></p>
+				<a href="#"><p>click to retry search</p></a>
+			</div>
+			<i class="fas fa-exclamation thumbs"></i>
+		</div>
+		`
+	}
+	function okHtml(orig){
+		return `
+		<div class="results-error-card" originAirport="${orig.airport}">
+			<i class="far fa-thumbs-up thumbs"></i>
+			<div>
+				<h1 ><span>${orig.airport}</span><i class="fas fa-arrow-circle-right"></i><span class="">${store.destinationLatLng.airport}</span></h1>
+			</div>
+			<i class="far fa-thumbs-up thumbs"></i>
+		</div>
+		`
+	}
+	store.originsLatLng.forEach(orig=>{
+		if (rejectedAirports.filter(ap => ap === orig.airport).length){
+			html += errorHtml(orig)
+		} else {
+			if (typeof orig.airport !== 'undefined') html += okHtml(orig)
+		}
+	})
+	$('.center-screen').hide();
+	$('.results-error').html(html).show();
 }
 
 

@@ -38,7 +38,37 @@ p{
     margin-top: 20px;
     color: grey;
 }
-
+.thumbs{
+	font-size: 35px;
+	margin: 5px;
+}
+.fa-thumbs-up{
+	color: green;
+}
+.fa-exclamation{
+	color: red;
+}
+.results-error-card div{
+	text-align: center;
+}
+.results-error-card{
+	background-color: white;
+	border: 1px lightgrey solid;
+	border-radius: 5px;
+    width: 400px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px;
+    margin: 3px auto;
+}
+.results-error-card.error{
+	border: 1px red solid;
+	background-color: #ffeeee;
+}
+.results-error-card.error:hover{
+	cursor: pointer;
+}
 
 #answerQuery, #departure_date, .originAirportInputs input{
 	    height: 30px;
