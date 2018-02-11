@@ -21,9 +21,9 @@ const store = {
 					'rgba(241, 196, 15, 1)', //yellow
 					'rgba(142, 68, 173, 1)', //purple
 				],
-		apikey: config.apikey,
-		googApiKey: config.googApiKey, 
-		timeZoneKey: config.timeZoneKey,
-		fsAppId: config.fsAppId,
-		fsAppKey: config.fsAppKey,
+		apikey: `${special.js.apikey}${special2.js.apikey}${special3.js.apikey}`,
+		googApiKey: special1.googApiKey, 
+		timeZoneKey: special1.timeZoneKey,
+		fsAppId: special1.fsAppId,
+		fsAppKey: special2.fsAppKey,
 };
