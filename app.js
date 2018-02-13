@@ -125,6 +125,7 @@ $('.searchButton').on('click', function(event){
 		store.prices = []; //empty it out.
 		store.destination = store.destinationLatLng.airport;
 		createFlightSearchPromises();
+		$('.searchButton').prop('disabled', true).addClass('disabled')
 	} else {
 		$('.error-message').html( readyToSearch() )  
 	}
