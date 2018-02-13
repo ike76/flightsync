@@ -18,6 +18,9 @@ body{
 	background: #f7f7f7;
 }
 
+strong{
+	font-weight: bold;
+}
 
 
 h1{
@@ -351,9 +354,12 @@ nav a{
 	border-radius: 10px;
     border: 1px solid lightgrey;
     margin-bottom: 25px;
-    width: 290px;
-
 }
+.originAirportInputs, .arrival-airport{
+	
+    width: 290px;
+}
+
 .fa-angle-double-right{
 	    font-size: 40px;
     color: grey;
@@ -367,7 +373,7 @@ nav a{
 }
 .center-message{
 	position: absolute;
-	top: 20vh;
+	top: 35vh;
 }
 .circle-label{
     background: white;

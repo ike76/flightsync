@@ -1,0 +1,96 @@
+.plane{
+	font-size: 4em;
+	position: absolute;
+	transition-property: all;
+	transition-duration: 2s;
+	transition-timing-function: ease;
+}
+.arrTime{
+	position: absolute;
+    background: #ffffffd1;
+    padding: 3px;
+    border-radius: 2px;
+    transition-property: all;
+    transition-duration: .5s;
+    transition-delay: 1.5s;
+    opacity:0;
+}
+
+.arrTime span{
+    font-size: 80%;
+    color: grey;
+    margin-left: 3px;
+}
+.arrTime1{
+    top: -5px;
+    left: -40px;
+}
+.arrTime4{
+    top: -5px;
+    right: -40px;
+}
+.arrTime3{
+    bottom: -5px;
+    left: -40px;
+}
+.arrTime2{
+    bottom: -5px;
+    right: -40px;
+}
+.plane1.start{
+	transform: rotate(20deg);
+	left: -800px;
+    top: -300px;
+}
+.plane4.start{
+	transform: rotate(160deg);
+	right: -800px;
+    top: -300px;
+}
+.plane3.start{
+	transform: rotate(-20deg);
+	left: -800px;
+    bottom: -300px;
+}
+.plane2.start{
+	transform: rotate(-160deg);
+	right: -800px;
+    bottom: -300px;
+}
+
+.plane1.end{
+	transform: rotate(20deg);
+	left: -50px;
+    top: -30px;
+}
+.plane4.end{
+	transform: rotate(160deg);
+	right: -50px;
+    top: -30px;
+}
+.plane3.end{
+	transform: rotate(-20deg);
+	left: -50px;
+    bottom: -30px;
+}
+.plane2.end{
+	transform: rotate(-160deg);
+	right: -50px;
+    bottom: -30px;
+}
+
+	
+
+.plane1{
+	color: red;
+}
+.plane4{
+	color: blue;
+}
+.plane3{
+	color: green;
+}
+.plane2{
+	color: orange;
+}
+
