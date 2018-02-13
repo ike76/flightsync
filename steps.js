@@ -43,8 +43,8 @@ function handleAirportInput(response, index){
 	if (response){
 		let flightObj = formatResponseAirport(response)
 		// if its the first step, make it the destination
-		if(store.partIndex===0){
-		 store.destinationLatLng = flightObj
+		if(!index){
+		 store.destinationLatLng = flightObj // if no index is given, it is the (only) destination airport
 		}
 		//otherwise check if it is already in the origin array, if not, put it in there.
 		else if (!store.originsLatLng.find(ap=> ap.airport === flightObj.airport)){
@@ -100,11 +100,11 @@ function verify(num = store.partIndex){ // return true if this step is verified
 
 function showHideStuff(num = store.partIndex){
 	if (num === 0) {
-		$('#destination').show()
-		$('#answerQuery').show().focus();
-		$('.display-airport').show()
-		$('#departure_date').hide()
-		$('.btn.prev').prop('disabled', true);
+		// $('#destination').show()
+		// $('#answerQuery').show().focus();
+		// $('.display-airport').show()
+		// $('#departure_date').hide()
+		// $('.btn.prev').prop('disabled', true);
 
 	};
 	if (num === 1) {

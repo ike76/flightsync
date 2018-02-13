@@ -1,5 +1,12 @@
 
-
+* {
+	box-sizing: border-box;
+	/*border: 1px lightgreen dotted;*/
+}
+header{
+	background: none;
+	color: darkslategrey;
+}
 body{
 /*	background: url(./assets/background-image.jpg) no-repeat bottom right fixed; 
 	-webkit-background-size: cover;
@@ -17,7 +24,7 @@ h1{
 	align-items: center;
 }
 h2{
-	font-family: 'Tenor Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 18px;
 	margin: 0;
 }
@@ -30,8 +37,12 @@ h4{
     margin: 5px 0;
 }
 p{
-	font-family: 'Tenor Sans', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	margin: 4px;
+}
+.center-screen{
+	text-align: center;
+	margin-top: 40%;
 }
 .fas.fa-spinner.fa-pulse{ 
     font-size: 40px;
@@ -66,20 +77,50 @@ p{
 	border: 1px red solid;
 	background-color: #ffeeee;
 }
+.originAirportInputs li, .arrival-airport{
+	display: flex;
+	align-items: center;
+}
+.dep-arr-text{
+	font-family: 'Roboto Condensed', sans-serif;
+    position: absolute;
+    top: 0;
+    /*margin-top: -15px;*/
+    left: 5px;
+}
+.relative{
+	position: relative;
+	top: 1em;
+}
 .results-error-card.error:hover{
 	cursor: pointer;
 }
+.searchButton{
+	padding: 5px 10px;
+	font-size: 20px;
 
-#answerQuery, #departure_date, .originAirportInputs input{
+}
+.error-message{
+	color: red;
+	font-weight: bold;
+}
+#arrivalAirport, #departure_date, .originAirportInputs input{
 	    height: 30px;
     font-size: 20px;
 }
 .originAirportInputs input{
 	margin-bottom: 5px;
 }
-.originAirportInputs input:disabled{
-	background-color: lightgrey;
+.originAirportInputs a, .arrival-airport a{
+	color: grey;
+	font-size: 20px;
+	margin: 2px;
 }
+.originAirportInputs a:hover{
+	color: blue;
+
+}
+
 .display-airport{
 	margin-top: 15px;
 	display: flex;
@@ -195,9 +236,21 @@ p{
 .airport{
 	font-weight: bold;
 }
-input.airport-code{
-	width: 4em;
+.airport-code{
+	font-family: 'Roboto Condensed', sans-serif;
+	padding: 5px;
+    background: white;
+    border: 1px black solid;
+    margin: 0 5px;
+    border-radius: 50%;
+    width: 3em;
+    text-align: center;
 }
+.airport-code.unknown{
+    border: 1px lightgrey solid;
+    color: lightgrey;
+}
+
 .map-container{
 	z-index: -1;
 	position: fixed;
@@ -209,13 +262,12 @@ input.airport-code{
 	height: 100%;
 }
 .small-map-holder{
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	width: 100%;
-	/*background-color: salmon;*/
-	z-index: -2;
+    z-index: -1;
+    height: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 .small-map-holder:after {
   content  : "";
@@ -255,9 +307,102 @@ input.airport-code{
 .results{
 	justify-content: center;
 }
+main{
+	justify-content: center;
+	display: flex;
+}
+nav{
+	display: flex;
+	flex-direction: column;
+	font-family: 'Roboto', sans-serif;
+}
+nav, aside, button{
+	background: #1d00ff0f;
+}
+nav li{
+	margin: 2px;
+	/*text-align: center;*/
+	padding: 10px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+nav li.active{
+	background: white;
+}
+nav a{
+	text-decoration: none;
+}
+.originAirportInputs, .center-message, .arrival-airport{
+	background: #fafafa8f;
+	padding: 30px 15px 15px;
+	border-radius: 10px;
+    border: 1px solid lightgrey;
+    margin-bottom: 25px;
+    width: 290px;
 
+}
+.fa-angle-double-right{
+	    font-size: 40px;
+    color: grey;
+    margin: 10px;
+}
+.column-center, .column-left, .column-right{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*justify-content: cent er;*/
+}
+.center-message{
+	position: absolute;
+	top: 40%;
+}
+.circle-label{
+    background: white;
+    padding: 5px;
+    border: 1px black solid;
+    border-radius: 50%;
+}
+.center-message .content{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+.underline{
+	text-decoration: underline;
+}
+button{
+	padding: 5px 10px;
+	margin: 10px;
+}
+.three-columns{
+		visibility: hidden;
+		min-height: 150vh;
+	
+}
+@media screen and (max-width: 415px){  /*iphone screen*/
+	.three-columns{
+		flex-direction: column;
+	}
+	.fa-angle-double-right:before {
+    content: "\f103";
+	}
+}
+@media screen and (min-width: 416px){  /*big screen*/
+	.three-columns{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 50px;
+	}
+	.fa-angle-double-right{
+		margin-top: 40px;
+	}
+}
 
-
+.departure-arrival{
+	width: 100%;
+}
 
 #mymap{
 	height: 100%; 

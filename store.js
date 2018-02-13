@@ -3,7 +3,7 @@ const store = {
 		// origin: '',  
 		origins: [],
 		originsLatLng: [], // [{airport: 'MSP', lat: 44.8793  ,lng: -93.1987 }],
-		destinationLatLng: { },// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
+		destinationLatLng: {},// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
 		destination: '',
 		mapOffset: 20,
 		rejectedAirports: [],

@@ -1,41 +1,4 @@
-// const apikey2 = 'hHHFLF6BaRjzVHm4DMbCdqeC2QEVG9XR'
-// const apikey = 'wsQelFUbdVt9Gc3QdPxRe6fG6qk3BnvN'
-// const googApiKey = 'AIzaSyAgZp2UfAzSNdEK-3ZE0TBC0asXgBb26Qk';
-// const timeZoneKey = 'AIzaSyCRLgmgalBQSn_JQ2mAhpYuQzSTWEqSwKI';
-// const fsAppId = '0a175eb8';
-// const fsAppKey = 'defecb4c87ed09385f30279c56e56a11'
 
-
-
-// const store = {
-// 		departure_date: moment().add(5, 'days'),
-// 		// origin: '',  
-// 		origins: [],
-// 		originsLatLng: [], // [{airport: 'MSP', lat: 44.8793  ,lng: -93.1987 }],
-// 		destinationLatLng: { },// {airport: 'LAX', lat: 33.9456 , lng: -118.391 },
-// 		destination: '',
-// 		mapOffset: 20,
-// 		resultsObjects: [],
-// 		timeZones: [],
-// 		chartDatasets: [],
-// 		chartTimesets: [],
-// 		timeBounds: {earliest: moment().add(100, 'years') ,latest: moment().subtract(100, 'years')},
-// 		filterPoints: {price: 100000, times: [0,10000000000], nonStopOnly: false},
-// 		prices: ["54.30", "54.30", "60.30", "60.30", "100.30", "115.00", "115.00", "115.00", "119.20", "119.20", "119.20", "120.60", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "127.00", "129.30", "147.00", "154.30", "154.30", "154.30", "198.00", "203.30", "213.30", "241.39", "249.60", "309.00", "534.30", "905.50", "905.50", "1114.30", "1114.30", "1135.00", "1155.30", "1181.00", "1181.00", "1181.00", "1196.00", "1375.30", "1384.00", "1384.00", "1384.00"],
-// 		colors: [
-// 					'rgba(192, 57, 43, 1)', //red
-// 					'rgba(39, 174, 96, 1)', // green
-// 					'rgba(230, 126, 34, 1)', //orange
-// 					'rgba(41, 128, 185, 1)', //blue
-// 					'rgba(241, 196, 15, 1)', //yellow
-// 					'rgba(142, 68, 173, 1)', //purple
-// 				],
-// 		apikey: config.apikey,
-// 		googApiKey: config.googApiKey, 
-// 		timeZoneKey: config.timeZoneKey,
-// 		fsAppId: config.fsAppId,
-// 		fsAppKey: config.fsAppKey,
-// };
 
 function validateAirportCode(textbox){
 	let response = airports.find(a=> a.code === textbox.val().toUpperCase().trim() ) || '';
@@ -43,16 +6,20 @@ function validateAirportCode(textbox){
 	return response;
 }
 
-$('#answerQuery').bind('keyup blur autocompleteclose',function(event){
+$('#arrivalAirport').bind('keyup blur autocompleteclose',function(event){
 	// validate airport
 	let response = validateAirportCode($(this))
+	console.log(response);
 	let $airportDisplay = $('.display-airport')
 	if (response){ // if you have a valid airport
 		// console.log('response', response);
+		$(this).closest('.arrival-airport').find('.airport-code').removeClass('unknown').html(response.code)
+
 		$airportDisplay.hide().html(displayAirport(response)).fadeIn();
-		$('.btn.next').prop('disabled', false)
+		// $('.btn.next').prop('disabled', false)
 		handleAirportInput(response);
 		} else {
+			$(this).closest('.arrival-airport').find('.airport-code').addClass('unknown').html('?')
 			$('.btn.next').prop('disabled', true)
 
 		}
@@ -61,18 +28,18 @@ $('#answerQuery').bind('keyup blur autocompleteclose',function(event){
 // $('#answerQuery').on('autocompleteclose', function(){
 // 	alert('there ya go')
 // })
-
+$('#departure_date').val(store.departure_date.format('YYYY-MM-DD'))
 $('#departure_date').change(function(event){
 	let date = $(this).val();
 	let valid = (moment(date).isValid() && moment(date) > moment().subtract(1,'days') && moment(date) < moment().add(1,'years'));
 	console.log('is it valid?', valid);
 	if (valid) {
-		$('.btn.next').prop('disabled', false);
+		// $('.btn.next').prop('disabled', false);
 		store.departure_date = moment(date)
-		$('.slogan').fadeOut()
-		$('.dateDisplay h2').hide().html(store.departure_date.format('dddd MMM Do YYYY')).fadeIn()
+		// $('.slogan').fadeOut()
+		// $('.dateDisplay h2').hide().html(store.departure_date.format('dddd MMM Do YYYY')).fadeIn()
 	} else {
-		$('.btn.next').prop('disabled', true);
+		// $('.btn.next').prop('disabled', true);
 
 	}
 })
@@ -82,31 +49,45 @@ $('.originAirportInputs input').bind('keyup blur autocompleteclose',function(eve
 	let index = $(this).attr('originIndex')
 	if (response){
 		$(this).attr('airport', response.code)
+		$(this).closest('li').find('.airport-code').removeClass('unknown').html(response.code)
 		// $(this).val(response.code.toUpperCase())
 		// $(this).prop('disabled', true)
 		 handleAirportInput(response, index)
 	} else {
+		$(this).closest('li').find('.airport-code').addClass('unknown').html('?')
 		handleAirportInput(null, index)
 	}
 })
 
-$('.rightSide').on('click', '.x-out', function(event){
-	let airport = $(this).closest('.flight-search-block').attr('originairport')
-	let goner = store.originsLatLng.find((ap)=> ap.airport === airport)
-	remove(store.originsLatLng, goner);
-	displayOriginAirports();
-	doMapMarkers();
-	let thisInput = $(`.originAirportInputs [airport=${airport}]`)
-	thisInput.prop('disabled', false)
-	thisInput.val('')
-	thisInput.focus();
 
-	console.log('thisInput', thisInput)
+// $('.rightSide').on('click', '.x-out', function(event){
+// 	let airport = $(this).closest('.flight-search-block').attr('originairport')
+// 	let goner = store.originsLatLng.find((ap)=> ap.airport === airport)
+// 	remove(store.originsLatLng, goner);
+// 	displayOriginAirports();
+// 	doMapMarkers();
+// 	let thisInput = $(`.originAirportInputs [airport=${airport}]`)
+// 	thisInput.prop('disabled', false)
+// 	thisInput.val('')
+// 	thisInput.focus();
+
+// 	console.log('thisInput', thisInput)
+// })
+
+
+$('nav').on('click', 'li',  function(e){
+	$(this).closest('nav').find('li').removeClass('active')
+	$(this).addClass('active')
+	let stepNum = $(this).attr('step')
+	$(`.page${stepNum}`).show()
+	$('.page').not(`.page${stepNum}`).hide()
 })
 
-$('.results-error').on('click', function(){
-	store.partIndex = 2;
-	moveAlong()
+
+
+$('#close-instructions, li[step="1"]').on('click', function(){
+	$('.center-message').fadeOut();
+	$('.three-columns').css('visibility', 'visible')
 })
 
 function remove(array, element) {
@@ -125,13 +106,28 @@ function displayAirport(response){
 	return html;
 }
 
+function readyToSearch(){
+	if ( store.originsLatLng.filter(orig => typeof orig.airport !== 'undefined').length < 1 ) return 'please enter departure airport(s)';
+	else if ( !store.departure_date ) return 'please enter a departure date';
+	else if ( store.departure_date < moment().subtract(1,'days') || store.departure_date > moment().add(2,'years') ) return 'invalid date';
+	else if ( typeof store.destinationLatLng.airport === 'undefined') return 'please enter a destination airport';
+	else return true;
+}
+
 
 // handle flight search
 $('.searchButton').on('click', function(event){
 	// event.preventDefault();
-	store.prices = []; //empty it out.
-	store.destination = store.destinationLatLng.airport;
-	createFlightSearchPromises();
+	if (readyToSearch() === true){
+		$('nav li[step=2]').click();
+		$('.error-message').empty();
+		$('.center-screen').html( getWaitHtml() ).css('visibility', 'visible')
+		store.prices = []; //empty it out.
+		store.destination = store.destinationLatLng.airport;
+		createFlightSearchPromises();
+	} else {
+		$('.error-message').html( readyToSearch() )  
+	}
 
 })
 
@@ -144,6 +140,7 @@ function createFlightSearchPromises(){
 
 	const promises = store.originsLatLng
 		.filter(origin=> typeof origin.airport !== 'undefined') // get rid of empties
+		.filter(origin=> origin.airport !== store.destinationLatLng.airport) // get rid of same orig / dest pairings
 		.map(origin => {
 			if(typeof origin.airport !== 'undefined'){
 				console.log('making Promise for', origin.airport)
@@ -169,8 +166,8 @@ function createFlightSearchPromises(){
 		}
 	}).then(()=>{
 		handleResultsObjects();
-		store.partIndex ++
-		moveAlong()
+		// store.partIndex ++
+		// moveAlong()
 		
 
 	}).catch( (err)=>{
@@ -186,7 +183,9 @@ function handleResultsObjects(){
 	})
 	createChart(store.chartDatasets)
 	createSliders()
-	// createMap()
+	doSmallMap()
+	$('.chart-sliders-container').fadeIn()
+	$('.center-screen').fadeOut();
 }
 function showErrorPage(rejectedAirports){
 	let html = '';

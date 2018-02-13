@@ -1,7 +1,7 @@
 $(function() {
 
 
-$('#answerQuery, .originAirportInputs input').autocomplete({
+$('#arrivalAirport, .originAirportInputs input').autocomplete({
 	// appendTo: '#answerQuery',
 	// delay: 500,
 	minLength: 4,

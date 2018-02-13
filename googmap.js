@@ -75,21 +75,17 @@ function addMarkerToMap(obj, i, fillColor){
 
 function doMapMarkers(){
     map.removeMarkers()
-    addMarkerToMap(store.destinationLatLng, null, 'Yellow')
+    if (typeof store.destinationLatLng.airport !== 'undefined')    addMarkerToMap(store.destinationLatLng, null, 'Yellow');
     store.originsLatLng.forEach((orig, i)=> {
         if (typeof orig.lat !== 'undefined') {addMarkerToMap(orig, i)}
     })
     drawRoutes();
-    if(store.originsLatLng
-        .filter(orig=> typeof orig.airport !== 'undefined')
-        .length) doMapBounds();
-        else map.panTo({lat: store.destinationLatLng.lat + store.mapOffset, lng: store.destinationLatLng.lng})
+    doMapBounds();
 }
-
 // function makeBounds(){
 //     store.bounds = new google.maps.LatLngBounds();
 // }
-function doMapBounds(){
+function doMapBounds(offset){
     let bounds = new google.maps.LatLngBounds();
     let highestLat = -90;
     let lowestLat = 90;
@@ -107,11 +103,10 @@ function doMapBounds(){
     });
     // let center = bounds.getCenter()
     
-    store.mapOffset = (highestLat - lowestLat) * 1.5 ;
-    let offsetPoint = {lat: highestLat + store.mapOffset, lng: store.destinationLatLng.lng}
+    store.mapOffset = (highestLat - lowestLat) ;
+    let offsetPoint = {lat: highestLat + store.mapOffset, lng: lowestLng}
     bounds.extend(offsetPoint);
     map.fitBounds(bounds )
-
 }
 
 function doSmallMap(){
@@ -132,9 +127,9 @@ function doSmallMap(){
       // }
       styles: mapStyle
     });
-
-    drawRoutes()
-    doSmallMapBounds()
+    doMapMarkers();
+    drawRoutes();
+    doSmallMapBounds();
 
 }
 
@@ -153,7 +148,7 @@ function doSmallMapBounds(){
 function drawRoutes(){
     map.removePolylines()
     let dest = store.destinationLatLng
-    if(dest && store.originsLatLng.length){
+    if(dest.airport && store.originsLatLng.length){
         // remove current polylines first
 
         // console.log('routes being drawn')
