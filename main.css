@@ -362,7 +362,7 @@ nav a{
 }
 .center-message{
 	position: absolute;
-	top: 40%;
+	top: 20vh;
 }
 .circle-label{
     background: white;
@@ -403,7 +403,7 @@ button{
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		margin-top: 50px;
+		/*margin-top: 50px;*/
 	}
 	.fa-angle-double-right{
 		margin-top: 40px;
