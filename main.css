@@ -15,9 +15,12 @@ body{
 	background-size: cover;*/
 }
 
+
+
 h1{
 	font-family: 'Archivo Black', sans-serif;
 	margin: 2px;
+	color: #9b0101;
 }
 .display-input-results h1{
 	font-size: 20px;
@@ -40,9 +43,14 @@ p{
 	font-family: 'Roboto', sans-serif;
 	margin: 4px;
 }
+input{
+	border: 1px #ccc solid;	
+	border-radius: 5px;
+}
 .center-screen{
 	text-align: center;
 	margin-top: 40%;
+	font-size: 20px;
 }
 .fas.fa-spinner.fa-pulse{ 
     font-size: 40px;
@@ -263,7 +271,7 @@ p{
 }
 .small-map-holder{
     z-index: -1;
-    height: 200px;
+    height: 150px;
     position: fixed;
     top: 0;
     left: 0;
@@ -333,7 +341,7 @@ nav a{
 	text-decoration: none;
 }
 .originAirportInputs, .center-message, .arrival-airport{
-	background: #fafafa8f;
+	background: #ffffff69;
 	padding: 30px 15px 15px;
 	border-radius: 10px;
     border: 1px solid lightgrey;
@@ -374,6 +382,8 @@ nav a{
 button{
 	padding: 5px 10px;
 	margin: 10px;
+	background: #4578a4;	
+	color: white;
 }
 .three-columns{
 		visibility: hidden;
@@ -498,12 +508,13 @@ ul{
 .flight-result{
 	border: double;
 	border-radius: 10px;
-	padding: 10px 5px;
+	padding: 10px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	margin-top: 15px;
 	max-width: 550px;
+	background: #ffffffcc;
 }
 
 .flight-result .left-side{
@@ -533,7 +544,6 @@ ul{
 	
 }
 .flight-result .maininfo{
-	font-family: 'Cantarell', sans-serif;
 	margin: 0;
 }
 .flight-result .airplane{
@@ -545,6 +555,7 @@ ul{
 
 .flight-result .leg img {
 	width: 15px;
+    margin: 0 3px;
 }
 .flight-result .otherinfo {
 	color: lightgrey;
@@ -591,12 +602,14 @@ ul{
 @media screen and (min-width: 416px){ /* big screens  */
 	.maininfo{
 		font-size: 15px;
+		font-family: 'Roboto Condensed'
 	}
 
 }
 
 @media screen and (max-width: 415px) { /*  phone screens */
 	.maininfo {
-		font-size: 10px;
+		font-size: 11px;
+		font-family: 'Roboto Condensed'
 	}
 }

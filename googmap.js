@@ -1,59 +1,5 @@
 
 
-// function createMap(){
-
-// 	function makeMarkers(){
-// 			let paths = []
-// 			let dest = store.destinationLatLng;
-			
-// 			function getCircle(color = 'blue'){
-// 				return {
-// 					path: google.maps.SymbolPath.CIRCLE,
-// 					scale: 13,
-// 					strokeColor: color,
-// 					strokeWeight: 1,
-// 					fillColor: 'white',
-// 					fillOpacity: 1,
-// 				};
-// 			}
-			
-
-// 			[...store.originsLatLng].forEach((loc, i)=>{
-// 				map.addMarker({lat: loc.lat, lng: loc.lng, title: loc.airport, label: {text: loc.airport, fontSize: '10px'}, icon: getCircle(store.colors[i]) }) // add this marker `${i+1}`
-// 				paths.push([[loc.lat, loc.lng],[dest.lat, dest.lng]]) // draw a path from this origin to destination
-// 			})
-// 			map.addMarker({lat: dest.lat, lng: dest.lng, title: dest.airport, label: {text: dest.airport, fontSize: '10px'},
-// 				icon: getCircle('black') })  
-			
-// 			paths.forEach((path, i)=> {
-
-// 				map.drawPolyline({
-// 					path: path,
-// 					strokeColor: store.colors[i],
-// 					strokeOpacity: 0.8,
-// 					strokeWeight: 2,
-// 					icons: [{
-// 						icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW },
-// 						offset: 0,
-// 						repeat: "100px"
-// 					}]
-// 				});
-// 			})
-// 		}
-
-// 	function updateMapBounds(){
-// 			let bounds = [...store.originsLatLng, store.destinationLatLng];
-//             let westOffset = store.destinationLatLng;
-//             bounds.forEach((e, i)=>{ if (e.lng < westOffset.lng) westOffset = e})
-// 			westOffset.lng -= 40; // create a dot to move the map to the right
-//             console.log('bounds', bounds)
-//             console.log('furthest west', westOffset)
-// 			map.fitLatLngBounds([...bounds, westOffset])
-// 		}
-
-// makeMarkers()
-// updateMapBounds()	
-// }
 
 function getCircle(color = 'black', fillColor = 'white'){
                 return {
@@ -82,9 +28,7 @@ function doMapMarkers(){
     drawRoutes();
     doMapBounds();
 }
-// function makeBounds(){
-//     store.bounds = new google.maps.LatLngBounds();
-// }
+
 function doMapBounds(offset){
     let bounds = new google.maps.LatLngBounds();
     let highestLat = -90;
@@ -110,7 +54,7 @@ function doMapBounds(offset){
 }
 
 function doSmallMap(){
-    let detMap = $('#mymap').detach()
+    // let detMap = $('#mymap').detach()
 
     map = new GMaps({
       div: '#mySmallMap',
@@ -175,9 +119,9 @@ function drawRoutes(){
 
     let map = new GMaps({
       div: '#mymap',
-      zoom: 3,
+      zoom: 4,
       lat: 39.8333333,
-      lng: -158.585522,
+      lng: -98.583333,
       disableDefaultUI: true,
 
       // click: function(e) {

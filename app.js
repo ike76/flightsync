@@ -176,6 +176,51 @@ function createFlightSearchPromises(){
 
 }
 
+function handleAirportInput(response, index){
+	if (response){
+		let flightObj = formatResponseAirport(response)
+		// if its the first step, make it the destination
+		if(!index){
+		 store.destinationLatLng = flightObj // if no index is given, it is the (only) destination airport
+		}
+		//otherwise check if it is already in the origin array, if not, put it in there.
+		else if (!store.originsLatLng.find(ap=> ap.airport === flightObj.airport)){
+		 store.originsLatLng[index] = flightObj
+		}
+	} else {
+		store.originsLatLng[index] = {} // wipe that one out
+	}
+
+	 // displayOriginAirports()
+	 doMapMarkers();
+
+}
+
+function formatResponseAirport(response){
+	return {
+		lat: Number(response.lat),
+		lng: Number(response.lon),
+		airport: response.code,
+		city: response.city,
+		tz: response.tz,
+	}
+}
+
+function getWaitHtml() {
+		let html = `
+			<h3>Searching for flights:</h3> `;
+			store.originsLatLng.forEach((orig, i)=>{
+				if(typeof orig.airport !== 'undefined'){
+					html += `<h4><span style="color: ${store.colors[i]};">${orig.airport}</span> <i class="fas fa-arrow-circle-right"></i> ${store.destinationLatLng.airport}</h4>`
+				}
+			})
+			html +=
+			`
+			<i class="fas fa-spinner fa-pulse"></i>
+		`
+		return html;
+	}
+
 function handleResultsObjects(){
 	console.log('store results objects', store.resultsObjects)
 	store.resultsObjects.forEach(result=>{

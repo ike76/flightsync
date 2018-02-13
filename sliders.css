@@ -3,6 +3,13 @@
 	margin: 20px auto 10px;
     /*margin: 50px;*/
 }
+.sliders.filters{
+	font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+.sliders .earliest, .sliders .latest, #max-price-display span{
+	font-weight: bold;
+}
 .sliders .horiz-slider{
 	margin-top: 10px;
 }
@@ -24,15 +31,11 @@
 }
 
 .chart-sliders-container{
-	/*width: 800px;*/
 	margin-top: 75px;
-	height: 500px;
+	background: #ffffffa0;
 	z-index: 2;
-	/*border: 1px solid grey;*/
-/*	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: center;*/
+	padding: 10px;
+	border-radius: 5px;
 }
 #time-range-display, #max-price-display{
 	margin-top: 5px;
@@ -48,4 +51,7 @@
 }
 .rawResults{
 	margin-top: 80px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 }
